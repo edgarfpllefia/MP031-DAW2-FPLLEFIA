@@ -1,0 +1,57 @@
+ *, *::before, *::after {
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+ 
+ 
+ .flexHeader{
+    box-shadow: 0 0 10px 0 rgba(0,0,0,.35);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+}
+
+.mainClass{
+    padding: 200px 0 200px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 250px;
+    background-color: rgba(223, 223, 223, 0.295)
+}
+
+.divImagen{
+    overflow: hidden;
+    border-radius: 50%;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.divImagen img{
+    object-fit: cover;
+    max-width: 200px;
+    max-height: 200%;
+}
+
+.hora{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+footer{
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    justify-content: center;
+    box-shadow: 0 -12px 20px -12px rgba(0,0,0,.35);
+    background-color: rgba(212, 212, 212, 0.116) ;
+    padding: 40px 0 40px 0;
+}
+
+
+
+
