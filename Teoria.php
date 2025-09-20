@@ -55,6 +55,8 @@
     }
 </style> -->
 
+<!-- Tabla -->
+
 <?php
     $peliculas = ["Interestelar", "Origen", "Dune", "Intocable","Cadena Perpetua"];
     $imagenes = [
