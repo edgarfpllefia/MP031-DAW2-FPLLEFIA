@@ -1,0 +1,131 @@
+        body{
+            font-family: Montserrat, sans-serif;
+        }
+
+        .contenedor {
+        width: 1181px;         
+        margin: 0 auto;        
+        box-sizing: border-box;
+        font-family: Montserrat, sans-serif;
+        font-weight: bold;
+        min-height: 100vh;
+        }
+
+        header{
+            padding-top: 10%;
+            display: flex;
+            justify-content: space-between;
+            margin-right: 2%;
+        }
+
+        nav ul{
+            display: flex;
+            list-style: none;
+            gap: 22px;
+            margin-top: 6%;
+            font-size: 17px;
+        }
+
+        nav ul li:hover{
+            color: rgb(227, 28, 25);
+        }
+
+        h2{
+            margin: 5% 0 2% 2%;
+            font-size: 30px;
+        }
+
+        hr{
+            border: none;
+            border-top: 1px solid rgb(217, 217, 217);
+        }
+
+        .cartelera{
+            display: grid;
+            gap: 15px;
+            justify-content: center;
+            grid-template-columns: repeat(5, 0fr); /*Acordarme de este parametro que lo uso mucho con grid*/
+        }
+
+        .contenedorImagen{
+            width: 218px;
+            height: 310px;
+            overflow: hidden;
+            border-radius: 6px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .contenedorImagen img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .contenedorImagen:hover .hoverPelicula{
+            display: block;
+        }
+
+        .divPeliculas{
+            border: 1px solid red;
+            width: auto;
+            height: auto;
+        }
+
+        .genero, .reparto, .horarios{
+            display: flex;
+            gap: 10px;
+        }
+
+        .hoverPelicula{
+            box-sizing: border-box;
+            display: none;
+            position: absolute;
+            top: 0;   
+            left: 0;
+            background: rgba(0,0,0,1);
+            color: white;
+            border-radius: 6px;
+            width: 218px;
+            height: 310px;
+            padding: 10px;
+        }
+
+        .botonesHover{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .trailer, .info{
+            color: red;
+            border: 1px solid red;
+            background: none;
+        }
+
+        .contenedorCarousel{
+            width: 1181px;
+            height: 440px;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+
+        .variosBotones{
+            margin-left: 20px;
+        }
+
+        .variosBotones button{
+            background-color: white;
+            box-shadow: 1px 1px 4px rgba(197, 197, 197, 1);
+            border: none;
+            padding: 10px;
+            font-size: 17px;
+            margin: 15px 7px 15px 0;
+            font-family: Montserrat, sans-serif;
+            border-radius: 6px;
+            margin-bottom: 7%;
+        }
+
+            .variosBotones button:hover{
+            background-color: rgb(227, 28, 25);
+            color: white;
+        }
