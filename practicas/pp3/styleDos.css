@@ -1,0 +1,59 @@
+*{
+    font-family: Montserrat, sans-serif;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(https://ccalcores.com/wp-content/uploads/2022/06/Alcores_sala-1_1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+h1{
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9)
+}
+
+p{
+    margin-bottom: 20px;
+}
+
+.contenedorFlex{
+    display: flex;
+    justify-content: start;
+    background-color: rgba(255, 255, 255, 0.9)
+}
+
+.contenedor{
+    width: 905px;
+    height: 600px;
+}
+
+span{
+    margin-right: 10px;
+    padding: 5px;
+    background-color: rgb(214, 27, 24);
+    color: white;
+    width: 10px;
+    height: auto;
+}
+
+.botonTrailer{
+    width: 310px;
+    margin-top: 15px;
+    padding: 5px;
+    background-color: white;
+    border: none;
+    border: 1px solid black;
+}
+
+.botonTrailer:hover{
+    background-color: rgb(214, 27, 24);
+    color: white;
+}

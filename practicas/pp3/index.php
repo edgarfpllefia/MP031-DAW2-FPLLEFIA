@@ -2,34 +2,6 @@
 include __DIR__ . '/peliculas.php';
 ?>
 
-<!-- <?php 
-    forEach($peliculas as $pelicula){
-        echo "<div class='divPeliculas'>";
-            echo "<h3>" .$pelicula['Nombre de la película']. "</h3>";
-            echo "<img src='".$pelicula['Imagen (URL)']."'  alt='' > ";
-            echo "<div class='horarios'>";
-            forEach($pelicula['Horarios de proyección'] as $horario){
-                echo "<p>" .$horario. "</p>";
-            }
-            echo "</div>";
-            echo "<p>".$pelicula['Sinopsis']."</p>";
-            echo "<p>".$pelicula['Duración']."</p>";
-            echo "<p>".$pelicula['Director']."</p>";
-            echo "<div class='reparto'>";
-            forEach($pelicula['Reparto'] as $reparto){
-                echo "<p>" .$reparto. "</p>";
-            }
-            echo "</div>";
-            echo "<p>".$pelicula['Calificación (+16)']."</p>";
-            echo "<div class='genero'>";
-            forEach($pelicula['Genero'] as $genero){
-                echo "<p>" .$genero. "</p>";
-            }
-            echo "</div>";
-            echo "<p>".$pelicula['URL del tráiler (YouTube)']."</p>";
-        echo "</div>";
-    }
-?> -->
 
 
 <!DOCTYPE html>
@@ -83,7 +55,7 @@ include __DIR__ . '/peliculas.php';
             <div class="cartelera">
                 <?php
                 forEach($peliculas as $indice => $pelicula){
-                    echo "<a href='https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/detall.php?id=".$indice."' target='_blank' ><div class='contenedorImagen'>";
+                    echo "<div class='contenedorImagen'>";
                     echo "<img src=".$pelicula['Imagen (URL)']." alt=''>";                 
                             echo "<div class='hoverPelicula'>";
                                     echo "<h3>" .$pelicula['Nombre de la película']. "</h3>";
@@ -93,11 +65,11 @@ include __DIR__ . '/peliculas.php';
                                     }
                                     echo "</div>";
                                     echo "<div class='botonesHover'>";
-                                    echo "<button class='trailer'>TRAILER</button>";
-                                    echo "<button class='info'>INFO</button>";
+                                    echo "<a href='https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/trailer.php?id=".$indice."' target='_blank' ><button class='trailer'>TRAILER</button></a>";
+                                    echo "<a href='https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/detall.php?id=".$indice."' target='_blank' ><button class='info'>INFO</button>";
                                     echo "</div>";
                             echo "</div>";                          
-                    echo "</div></a>";
+                    echo "</div>";
                 }
                 ?>
             </div>

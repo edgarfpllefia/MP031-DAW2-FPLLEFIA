@@ -11,7 +11,7 @@ $peliculas = [
     'Reparto' => ['Marlon Brando', 'Al Pacino', 'James Caan'],
     'Calificación (+16)' => true,
     'Género' => ['Drama', 'Crimen'],
-    'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=sY1S34973zA',
+    'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=gCVj1LeYnsc',
   ],
   [
     'Nombre de la película' => 'Titanic',

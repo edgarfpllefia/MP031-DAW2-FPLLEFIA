@@ -62,7 +62,7 @@
             object-fit: cover;
         }
 
-        .contenedorImagen:hover .hoverPelicula{
+        .contenedorImagen:hover .hoverPelicula {
             display: block;
         }
 
