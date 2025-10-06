@@ -2,10 +2,11 @@
 echo "
 <header style='
     display:flex; 
+    justify-content: center;
     align-items:center; 
     gap:20px; 
-    padding:15px 25px; 
-    background:#f8f9fa;
+    padding:50px 25px; 
+    background:#C5D2FA;
     box-shadow: 0 2px 3px;
     font-family: Arial, sans-serif;
 '>

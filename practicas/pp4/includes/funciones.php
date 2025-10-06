@@ -15,10 +15,17 @@ function generarTablaProductos($productos){
         $preu = $producto['precio'];
         $valor = $producto['disponible'] ? "En stock" : "Agotado";
 
+        if($valor == "En stock"){
+            $backgroundValor = "style='background-color: #c8f7c5; color: green; font-weight:bold;'";
+        } else {
+            $backgroundValor = "style='background-color: #f7c5c5; color: red; font-weight:bold;'";
+        }
+
+
         echo "<tr>
                 <td>$nom</td>
                 <td>$preu</td>
-                <td>$valor</td>
+                <td $backgroundValor>$valor</td>
               </tr>";
     }
 
@@ -28,7 +35,14 @@ function generarTablaProductos($productos){
 function muestraInfoContacto($nombre, $telefono, $foto){
     echo "<p>Nombre: $nombre</p>
     <p>Telefono: $telefono</p>
-    <p>Foto del perfil: <img src='".$foto."' alt=''></p>";
+    <div>
+    <p>Foto del perfil: <img style=' width:80px;
+        height:80px;
+        border-radius:50%;
+        object-fit:cover;
+        margin-bottom: -10px;
+        border:2px solid #ccc;' src='".$foto."' alt=''></p>
+    </div>";
 }
 
 ?>

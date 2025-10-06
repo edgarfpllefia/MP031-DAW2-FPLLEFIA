@@ -1,4 +1,21 @@
 *{
     margin: 0px;
     box-sizing: border-box;
+    font-family: "Jost", sans-serif;
+    font-size: 25px;
+}
+
+#tablaProductos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px 0 50px 0;
+}
+
+#infoPersona{
+    text-align: center;
+}
+
+main{
+    margin-bottom: 40px;
 }
