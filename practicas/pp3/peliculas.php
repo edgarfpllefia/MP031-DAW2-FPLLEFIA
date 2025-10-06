@@ -12,6 +12,7 @@ $peliculas = [
     'Calificación (+16)' => true,
     'Género' => ['Drama', 'Crimen'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=gCVj1LeYnsc',
+    'Nota' => 5,
   ],
   [
     'Nombre de la película' => 'Titanic',
@@ -24,6 +25,7 @@ $peliculas = [
     'Calificación (+16)' => false,
     'Género' => ['Romance', 'Drama'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=2e-eXJ6HgkQ',
+    'Nota' => 4,
   ],
   [
     'Nombre de la película' => 'El Señor de los Anillos: La Comunidad del Anillo',
@@ -36,6 +38,7 @@ $peliculas = [
     'Calificación (+16)' => true,
     'Género' => ['Fantasía', 'Aventura'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=V75dMMIW2B4',
+    'Nota' => 5,
   ],
   [
     'Nombre de la película' => 'Avatar',
@@ -48,6 +51,7 @@ $peliculas = [
     'Calificación (+16)' => false,
     'Género' => ['Ciencia ficción', 'Aventura'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=5PSNL1qE6VY',
+    'Nota' => 4,
   ],
   [
     'Nombre de la película' => 'Gladiator',
@@ -60,6 +64,7 @@ $peliculas = [
     'Calificación (+16)' => true,
     'Género' => ['Acción', 'Drama'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=owK1qxDselE',
+    'Nota' => 5,
   ],
   [
     'Nombre de la película' => 'Inception (Origen)',
@@ -72,6 +77,7 @@ $peliculas = [
     'Calificación (+16)' => true,
     'Género' => ['Ciencia ficción', 'Acción'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=YoHD9XEInc0',
+    'Nota' => 5,
   ],
   [
     'Nombre de la película' => 'Joker',
@@ -84,6 +90,7 @@ $peliculas = [
     'Calificación (+16)' => true,
     'Género' => ['Drama', 'Thriller'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=zAGVQLHvwOY',
+    'Nota' => 4,
   ],
   [
     'Nombre de la película' => 'Pulp Fiction',
@@ -96,6 +103,7 @@ $peliculas = [
     'Calificación (+16)' => true,
     'Género' => ['Crimen', 'Drama'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=s7EdQ4FqbhY',
+    'Nota' => 3,
   ],
   [
     'Nombre de la película' => 'Forrest Gump',
@@ -108,6 +116,7 @@ $peliculas = [
     'Calificación (+16)' => false,
     'Género' => ['Drama', 'Romance'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=bLvqoHBptjg',
+    'Nota' => 5,
   ],
   [
     'Nombre de la película' => 'Avengers: Endgame',
@@ -120,8 +129,9 @@ $peliculas = [
     'Calificación (+16)' => true,
     'Género' => ['Acción', 'Ciencia ficción'],
     'URL del tráiler (YouTube)' => 'https://www.youtube.com/watch?v=TcMBFSGVi1c',
+    'Nota' => 4,
   ],
 ];
 
-
 ?>
+

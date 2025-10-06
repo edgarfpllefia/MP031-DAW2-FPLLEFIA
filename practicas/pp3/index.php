@@ -65,9 +65,16 @@ include __DIR__ . '/peliculas.php';
                                     }
                                     echo "</div>";
                                     echo "<div class='botonesHover'>";
-                                    echo "<a href='https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/trailer.php?id=".$indice."' target='_blank' ><button class='trailer'>TRAILER</button></a>";
-                                    echo "<a href='https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/detall.php?id=".$indice."' target='_blank' ><button class='info'>INFO</button>";
+                                    echo "<a href='trailer.php?id=".$indice."' target='_blank' ><button class='trailer'>TRAILER</button></a>";
+                                    echo "<a href='detall.php?id=".$indice."' target='_blank' ><button class='info'>INFO</button></a>";
                                     echo "</div>";
+                                    $puntuacion = $pelicula['Nota'];
+                                    for($i = 0 ; $i < $puntuacion ; $i++){   
+                                       echo "<svg class='estrella' viewBox='0 0 24 24'><path fill='currentColor' d='M12 .587l3.668 7.431 8.2 1.193-5.934 5.782 1.402 8.175L12 18.896l-7.336 3.872 1.402-8.175L.132 9.211l8.2-1.193L12 .587z'/></svg>";
+                                    }
+                                    for($x = $puntuacion ; $x < 5 ; $x++){
+                                        echo "<svg class='estrella apagada' viewBox='0 0 24 24'><path fill='currentColor' d='M12 .587l3.668 7.431 8.2 1.193-5.934 5.782 1.402 8.175L12 18.896l-7.336 3.872 1.402-8.175L.132 9.211l8.2-1.193L12 .587z'/></svg>";
+                                    }
                             echo "</div>";                          
                     echo "</div>";
                 }
@@ -76,4 +83,6 @@ include __DIR__ . '/peliculas.php';
         </main>
     </div>
 </body>
+
+<svg></svg>
 </html>

@@ -1,10 +1,10 @@
 <?php
     $ejercicios = [
-        'https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/ex1.php',
-        'https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/ex2.php',
-        'https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/ex3.php',
-        'https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/extra1.php',
-        'https://ubiquitous-invention-q7p7jxxxvrqv2xr95-8000.app.github.dev/extra2.php',
+        'ex1.php',
+        'ex2.php',
+        'ex3.php',
+        'extra1.php',
+        'extra2.php',
     ];
 
     $total = count($ejercicios);
