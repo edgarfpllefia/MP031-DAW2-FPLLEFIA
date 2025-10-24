@@ -1,0 +1,1 @@
+<!-- Eliminaremos el personaje que seleccionemos -->
