@@ -12,9 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
             $_SESSION['password'] = $password;
 
             header('Location: form.php');
-            exit; // 🔥 Detiene el código después de redirigir
+            exit; // Detiene el código después de redirigir
         }else{
-            // 🔹 Guardamos el error en la sesión y redirigimos limpio
+            // Guardamos el error en la sesión y redirigimos limpio
             $_SESSION['error'] = "Usuario o contraseña incorrectos.";
             header('Location: login.php');
             exit;
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 <body>
     <h1>Introduce tus credenciales de usuario</h1>
 
-    <!-- 🔹 Mostrar error solo si existe en la sesión -->
+    <!-- Mostrar error solo si existe en la sesión -->
     <?php
     if (isset($_SESSION['error'])) {
         echo "<p style='color:red'>" . htmlspecialchars($_SESSION['error']) . "</p>";
