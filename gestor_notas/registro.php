@@ -17,7 +17,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
     $password_hasheada = password_hash($password, PASSWORD_DEFAULT);
 
-    //Preparo la consula para insertar el un usuario nuevo
+    //Preparo la consula para insertar un usuario nuevo
 
     $stmt = $mysqli->prepare(
         "

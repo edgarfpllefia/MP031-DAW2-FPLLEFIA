@@ -11,7 +11,7 @@ if($_SESSION['user_rol'] !== 'admin'){
 
 //recoger el id de lanoticia a eliminar
 if(!isset($_GET['id']) || empty($_GET)){
-
+    
 }
 
 //preparar la consulta para eliminar la noticia
