@@ -1,3 +1,16 @@
+<?php
+session_start();
+require_once '../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../login.php');
+}
+
+$nombre = $_SESSION['user_name'];
+$role = $_SESSION['user_role'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -281,8 +294,8 @@
             <h2>Dashboard</h2>
             <div class="admin-profile">
                 <div class="admin-info">
-                    <h5>Admin User</h5>
-                    <p>Administrador</p>
+                    <h5>Admin <?= $nombre ?></h5>
+                    <p><?= $role ?></p>
                 </div>
                 <div class="admin-avatar">
                     <i class="bi bi-person"></i>
@@ -292,7 +305,7 @@
 
         <!-- Menu Cards -->
         <div class="menu-container">
-            <a href="gestio-vehicles.html" class="menu-card">
+            <a href="coches/adminCoche.php" class="menu-card">
                 <div class="menu-icon vehiculos">
                     <i class="bi bi-car-front"></i>
                 </div>
@@ -302,7 +315,7 @@
                 </div>
             </a>
             
-            <a href="gestio-clients.html" class="menu-card">
+            <a href="usuarios/adminUsuario.php" class="menu-card">
                 <div class="menu-icon usuarios">
                     <i class="bi bi-people"></i>
                 </div>
@@ -312,7 +325,7 @@
                 </div>
             </a>
             
-            <a href="gestio-lloguers.html" class="menu-card">
+            <a href="alquiler/adminAlquiler.php" class="menu-card">
                 <div class="menu-icon reservas">
                     <i class="bi bi-calendar-check"></i>
                 </div>

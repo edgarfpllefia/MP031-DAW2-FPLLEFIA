@@ -1,3 +1,38 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $direccion = $_POST['direccion'];
+
+    $password_hasheada = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $mysqli->prepare('INSERT INTO users (role, nombre, apellido, email, password, direccion) VALUES ("client", ?, ?, ?, ?, ?)');
+
+    if(!$stmt){
+        die("Error al preparar la query" . $mysqli->error);
+    }
+
+    $stmt ->bind_param('sssss', $nombre, $apellido, $email, $password_hasheada, $direccion);
+    
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+
+    header('Location: login.php');
+    }
+
+    
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -141,7 +176,7 @@
             </div>
             
             <div class="registro-body">
-                <form action="" method="POST">
+                <form action="registro.php" method="POST">
                     <div class="row g-3">
                         <!-- Nombre -->
                         <div class="col-md-6">
@@ -157,7 +192,7 @@
                             <label for="apellidos" class="form-label">Apellidos</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Tus apellidos" required>
+                                <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Tus apellidos" required>
                             </div>
                         </div>
                         

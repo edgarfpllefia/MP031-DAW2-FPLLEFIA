@@ -1,3 +1,50 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $stmt = $mysqli->prepare('SELECT * FROM users WHERE email = ?');
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+    if($resultado->num_rows === 1){
+        $usuario = $resultado->fetch_assoc();
+    }
+
+    if(password_verify($password, $usuario['password'])){
+        $_SESSION['user_id'] = $usuario['id'];
+        $_SESSION['user_name'] = $usuario['nombre'];
+        $_SESSION['user_email'] = $usuario['email'];
+        $_SESSION['user_role'] = $usuario['role'];
+        $_SESSION['user_foto'] = $usuario['foto'];
+
+        if($_SESSION['user_role'] === 'admin'){
+            header('Location: admin/adminDashboard.php');
+            exit();
+        }
+
+        if($_SESSION['user_role'] === 'client'){
+            header('Location: users/userDashboard.php');
+            exit();
+        }
+        
+
+    }else{
+        echo "<h1 style='color: red';>Contraseña incorrecta</h1>";
+    }
+}
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -196,7 +243,7 @@
             </div>
             
             <div class="login-body">
-                <form action="" method="POST">
+                <form action="login.php" method="POST">
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo Electrónico</label>
