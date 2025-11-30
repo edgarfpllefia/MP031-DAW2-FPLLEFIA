@@ -1,7 +1,7 @@
 <?php 
 session_start();
 
-if(isset($_SESSION['user_rol']) && $_SESSION['user_rol'] === 'admin'){
+if(isset($_SESSION['user_rol']) || $_SESSION['user_rol'] === 'admin'){
     //El usuario es un administrador, permitir acceso
 }else{
     //lo redirigimos al login

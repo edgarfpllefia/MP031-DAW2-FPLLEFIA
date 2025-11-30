@@ -20,9 +20,6 @@
         <li class="nav-item">
           <a class="nav-link" href="blog.php">Blog</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="portfolio.php">Portfolio</a>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
           <div class="dropdown-menu">
