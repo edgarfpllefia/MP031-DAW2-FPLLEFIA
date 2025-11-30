@@ -221,31 +221,31 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="dashboard-admin.html" class="nav-link">
+                <a href="../adminDashboard.php" class="nav-link">
                     <i class="bi bi-house-door"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-vehicles.html" class="nav-link active">
+                <a href="../coches/adminCoche.php" class="nav-link active">
                     <i class="bi bi-car-front"></i>
                     <span>Vehicles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="../usuarios/adminUsuario.php" class="nav-link">
                     <i class="bi bi-people"></i>
                     <span>Clients</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="../alquiler/adminAlquiler.php" class="nav-link">
                     <i class="bi bi-calendar-check"></i>
                     <span>Lloguers</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 40px;">
-                <a href="login.html" class="nav-link">
+                <a href="../../logout.php" class="nav-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Tancar Sessió</span>
                 </a>
@@ -262,7 +262,7 @@
 
         <!-- Form Section -->
         <div class="content-section">
-            <form action="" method="POST">
+            <form action="addCoche.php" method="POST">
                 <div class="row g-3">
                     <!-- Nom -->
                     <div class="col-12">
@@ -300,15 +300,15 @@
                         <label for="estado" class="form-label">Estat</label>
                         <select class="form-select" id="estado" name="estado" required>
                             <option value="disponible" selected>Disponible</option>
-                            <option value="llogat">Llogat</option>
-                            <option value="manteniment">Manteniment</option>
+                            <option value="alquilado">Llogat</option>
+                            <option value="mantenimento">Manteniment</option>
                         </select>
                     </div>
 
                     <!-- Foto -->
                     <div class="col-12">
                         <label for="foto" class="form-label">URL de la Foto</label>
-                        <input type="url" class="form-control" id="foto" name="foto" placeholder="https://exemple.com/imatge.jpg" onchange="previewImage()" required>
+                        <input type="url" class="form-control" id="foto" name="foto" placeholder="https://exemple.com/imatge.jpg"  required>
                         <small class="text-muted">Introdueix la URL completa de la imatge del vehicle</small>
                     </div>
                 </div>

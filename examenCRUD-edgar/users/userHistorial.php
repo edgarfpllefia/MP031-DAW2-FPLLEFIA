@@ -337,31 +337,31 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="dashboard-user.html" class="nav-link">
+                <a href="userDashboard.php" class="nav-link">
                     <i class="bi bi-house-door"></i>
                     <span>Inici</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="lloguers-actius.html" class="nav-link">
+                <a href="userActivos.php" class="nav-link">
                     <i class="bi bi-calendar-check"></i>
                     <span>Lloguers Actius</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="vehicles-disponibles.html" class="nav-link">
+                <a href="userDisponibles.php" class="nav-link">
                     <i class="bi bi-car-front"></i>
                     <span>Vehicles Disponibles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="historial-reserves.html" class="nav-link active">
+                <a href="userHistorial.php" class="nav-link active">
                     <i class="bi bi-clock-history"></i>
                     <span>Historial</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 40px;">
-                <a href="login.html" class="nav-link">
+                <a href="../logout.php" class="nav-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Tancar Sessió</span>
                 </a>
@@ -463,86 +463,7 @@
                             <td><strong style="color: #ff6b35;">360€</strong></td>
                             <td><span class="badge-custom badge-actiu">Actiu</span></td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=200" alt="Audi A4" class="vehicle-img">
-                                    <strong>Audi A4 Gris</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <strong>Audi</strong><br>
-                                    <small style="color: #7f8c8d;">A4</small>
-                                </div>
-                            </td>
-                            <td>15/11/2024</td>
-                            <td>18/11/2024</td>
-                            <td>3 dies</td>
-                            <td><strong style="color: #7f8c8d;">315€</strong></td>
-                            <td><span class="badge-custom badge-completat">Completat</span></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=200" alt="Mercedes" class="vehicle-img">
-                                    <strong>Mercedes Classe A Blanc</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <strong>Mercedes-Benz</strong><br>
-                                    <small style="color: #7f8c8d;">Classe A</small>
-                                </div>
-                            </td>
-                            <td>01/11/2024</td>
-                            <td>05/11/2024</td>
-                            <td>4 dies</td>
-                            <td><strong style="color: #7f8c8d;">380€</strong></td>
-                            <td><span class="badge-custom badge-completat">Completat</span></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=200" alt="BMW" class="vehicle-img">
-                                    <strong>BMW Sèrie 3 Blau</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <strong>BMW</strong><br>
-                                    <small style="color: #7f8c8d;">Sèrie 3</small>
-                                </div>
-                            </td>
-                            <td>20/10/2024</td>
-                            <td>22/10/2024</td>
-                            <td>2 dies</td>
-                            <td><strong style="color: #7f8c8d;">220€</strong></td>
-                            <td><span class="badge-custom badge-cancelat">Cancel·lat</span></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=200" alt="Audi A4" class="vehicle-img">
-                                    <strong>Audi A4 Gris</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <strong>Audi</strong><br>
-                                    <small style="color: #7f8c8d;">A4</small>
-                                </div>
-                            </td>
-                            <td>10/10/2024</td>
-                            <td>13/10/2024</td>
-                            <td>3 dies</td>
-                            <td><strong style="color: #7f8c8d;">315€</strong></td>
-                            <td><span class="badge-custom badge-completat">Completat</span></td>
-                        </tr>
+        
                     </tbody>
                 </table>
             </div>

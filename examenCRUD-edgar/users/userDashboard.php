@@ -1,5 +1,3 @@
-<!-- Aqui tengo que poner aun mis datos y hacer editUser.php para cambiar los datos -->
-
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -143,6 +141,27 @@
             margin: 0;
             font-size: 0.8rem;
             color: #7f8c8d;
+        }
+
+        .btn-edit-profile {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-edit-profile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
         }
 
         /* Content Section */
@@ -356,31 +375,31 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="userDashboard.php" class="nav-link active">
                     <i class="bi bi-house-door"></i>
                     <span>Inici</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#actius" class="nav-link">
+                <a href="userActivos.php" class="nav-link">
                     <i class="bi bi-calendar-check"></i>
                     <span>Lloguers Actius</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#vehicles" class="nav-link">
+                <a href="userDisponibles.php" class="nav-link">
                     <i class="bi bi-car-front"></i>
                     <span>Vehicles Disponibles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#historial" class="nav-link">
+                <a href="userHistorial.php" class="nav-link">
                     <i class="bi bi-clock-history"></i>
                     <span>Historial</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 40px;">
-                <a href="login.html" class="nav-link">
+                <a href="../logout.php" class="nav-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Tancar Sessió</span>
                 </a>
@@ -393,13 +412,19 @@
         <!-- Top Bar -->
         <div class="top-bar">
             <h2>Benvingut, !</h2>
-            <div class="user-profile">
-                <div class="user-info">
-                    <h5>nombre</h5>
-                    <p>tipo de role</p>
-                </div>
-                <div class="user-avatar">
-                    avatar
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="editar-perfil.html" class="btn-edit-profile">
+                    <i class="bi bi-person-gear"></i>
+                    Editar Perfil
+                </a>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <h5>nombre</h5>
+                        <p>tipo de role</p>
+                    </div>
+                    <div class="user-avatar">
+                        avatar
+                    </div>
                 </div>
             </div>
         </div>
@@ -461,31 +486,6 @@
                     </div>
                 </div>
 
-                <!-- Vehicle Card 2 -->
-                <div class="vehicle-card">
-                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400" alt="BMW Sèrie 3" class="vehicle-card-img">
-                    <div class="vehicle-card-body">
-                        <div class="vehicle-card-title">BMW Sèrie 3 Blau</div>
-                        <p style="color: #7f8c8d; margin: 0; font-size: 0.9rem;">BMW</p>
-                        <div class="vehicle-card-info">
-                            <div class="vehicle-price">110€ <span>/dia</span></div>
-                            <a href="#" class="btn-rent">Llogar</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Vehicle Card 3 -->
-                <div class="vehicle-card">
-                    <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400" alt="Audi A4" class="vehicle-card-img">
-                    <div class="vehicle-card-body">
-                        <div class="vehicle-card-title">Audi A4 Gris</div>
-                        <p style="color: #7f8c8d; margin: 0; font-size: 0.9rem;">Audi</p>
-                        <div class="vehicle-card-info">
-                            <div class="vehicle-price">105€ <span>/dia</span></div>
-                            <a href="#" class="btn-rent">Llogar</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -520,32 +520,6 @@
                             <td>18/11/2024</td>
                             <td>315€</td>
                             <td><span class="badge-custom badge-completat">Completat</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=200" alt="Mercedes" class="vehicle-img">
-                                    <span>Mercedes Classe A Blanc</span>
-                                </div>
-                            </td>
-                            <td>Mercedes-Benz</td>
-                            <td>01/11/2024</td>
-                            <td>05/11/2024</td>
-                            <td>380€</td>
-                            <td><span class="badge-custom badge-completat">Completat</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=200" alt="BMW" class="vehicle-img">
-                                    <span>BMW Sèrie 3 Blau</span>
-                                </div>
-                            </td>
-                            <td>BMW</td>
-                            <td>20/10/2024</td>
-                            <td>22/10/2024</td>
-                            <td>220€</td>
-                            <td><span class="badge-custom badge-cancelat">Cancel·lat</span></td>
                         </tr>
                     </tbody>
                 </table>

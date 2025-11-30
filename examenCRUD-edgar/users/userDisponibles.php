@@ -328,31 +328,31 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="dashboard-user.html" class="nav-link">
+                <a href="userDashboard.php" class="nav-link">
                     <i class="bi bi-house-door"></i>
                     <span>Inici</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="lloguers-actius.html" class="nav-link">
+                <a href="userActivos.php" class="nav-link">
                     <i class="bi bi-calendar-check"></i>
                     <span>Lloguers Actius</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="vehicles-disponibles.html" class="nav-link active">
+                <a href="userDisponibles.php" class="nav-link active">
                     <i class="bi bi-car-front"></i>
                     <span>Vehicles Disponibles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="historial-reserves.html" class="nav-link">
+                <a href="userHistorial.php" class="nav-link">
                     <i class="bi bi-clock-history"></i>
                     <span>Historial</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 40px;">
-                <a href="login.html" class="nav-link">
+                <a href="../logout.php" class="nav-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Tancar Sessió</span>
                 </a>

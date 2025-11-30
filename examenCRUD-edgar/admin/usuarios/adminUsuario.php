@@ -319,31 +319,31 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="dashboard-admin.html" class="nav-link">
+                <a href="../adminDashboard.php" class="nav-link">
                     <i class="bi bi-house-door"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-vehicles.html" class="nav-link">
+                <a href="../coches/adminCoche.php" class="nav-link">
                     <i class="bi bi-car-front"></i>
                     <span>Vehicles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="../usuarios/adminUsuario.php" class="nav-link active">
                     <i class="bi bi-people"></i>
                     <span>Clients</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="../alquiler/adminAlquiler.php" class="nav-link">
                     <i class="bi bi-calendar-check"></i>
                     <span>Lloguers</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 40px;">
-                <a href="login.html" class="nav-link">
+                <a href="../../logout.php" class="nav-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Tancar Sessió</span>
                 </a>
@@ -371,7 +371,7 @@
         <div class="content-section">
             <div class="section-header">
                 <h4><i class="bi bi-people me-2"></i>Llista de Clients</h4>
-                <a href="afegir-client.html" class="btn btn-primary-custom">
+                <a href="addUsuario.php" class="btn btn-primary-custom">
                     <i class="bi bi-plus-lg me-2"></i>Afegir Client
                 </a>
             </div>
@@ -404,84 +404,12 @@
                             <td><span class="badge-custom badge-client">Client</span></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="editar-client.html?id=1" class="btn-action btn-edit">
+                                    <a href="editUsuario.php?id=" class="btn-action btn-edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="btn-action btn-delete">
+                                    <a href="deleteUsuario.php?id="><button class="btn-action btn-delete">
                                         <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Maria</td>
-                            <td>García López</td>
-                            <td>maria.garcia@email.com</td>
-                            <td>Avinguda Diagonal, 456, Barcelona</td>
-                            <td><span class="badge-custom badge-admin">Admin</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-client.html?id=2" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button class="btn-action btn-delete">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Carles</td>
-                            <td>López Martínez</td>
-                            <td>carles.lopez@email.com</td>
-                            <td>Plaça Catalunya, 78, Barcelona</td>
-                            <td><span class="badge-custom badge-client">Client</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-client.html?id=3" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button class="btn-action btn-delete">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Laura</td>
-                            <td>Fernández Ruiz</td>
-                            <td>laura.fernandez@email.com</td>
-                            <td>Carrer Aragó, 234, Barcelona</td>
-                            <td><span class="badge-custom badge-client">Client</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-client.html?id=4" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button class="btn-action btn-delete" onclick="confirmarEliminar(4)">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Marc</td>
-                            <td>Sánchez Vila</td>
-                            <td>marc.sanchez@email.com</td>
-                            <td>Passeig de Gràcia, 89, Barcelona</td>
-                            <td><span class="badge-custom badge-client">Client</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-client.html?id=5" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <button class="btn-action btn-delete" onclick="confirmarEliminar(5)">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
+                                    </button></a>
                                 </div>
                             </td>
                         </tr>

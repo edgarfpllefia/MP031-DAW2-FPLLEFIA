@@ -223,31 +223,31 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="dashboard-admin.html" class="nav-link">
+                <a href="../adminDashboard.php" class="nav-link">
                     <i class="bi bi-house-door"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-vehicles.html" class="nav-link">
+                <a href="../coches/adminCoche.php" class="nav-link">
                     <i class="bi bi-car-front"></i>
                     <span>Vehicles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-clients.html" class="nav-link active">
+                <a href="../usuarios/adminUsuario.php" class="nav-link active">
                     <i class="bi bi-people"></i>
                     <span>Clients</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-lloguers.html" class="nav-link">
+                <a href="../alquiler/adminAlquiler.php" class="nav-link">
                     <i class="bi bi-calendar-check"></i>
                     <span>Lloguers</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 40px;">
-                <a href="login.html" class="nav-link">
+                <a href="../../logout.php" class="nav-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Tancar Sessió</span>
                 </a>

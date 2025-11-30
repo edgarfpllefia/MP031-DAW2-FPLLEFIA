@@ -316,31 +316,31 @@
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="dashboard-admin.html" class="nav-link">
+                <a href="../adminDashboard.php" class="nav-link">
                     <i class="bi bi-house-door"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-vehicles.html" class="nav-link">
+                <a href="../coches/adminCoche.php" class="nav-link">
                     <i class="bi bi-car-front"></i>
                     <span>Vehicles</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-clients.html" class="nav-link">
+                <a href="../usuarios/adminUsuario.php" class="nav-link">
                     <i class="bi bi-people"></i>
                     <span>Clients</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="gestio-lloguers.html" class="nav-link active">
+                <a href="../alquiler/adminAlquiler.php" class="nav-link active">
                     <i class="bi bi-calendar-check"></i>
                     <span>Lloguers</span>
                 </a>
             </li>
             <li class="nav-item" style="margin-top: 40px;">
-                <a href="login.html" class="nav-link">
+                <a href="../../logout.php" class="nav-link">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>Tancar Sessió</span>
                 </a>
@@ -365,7 +365,7 @@
         <div class="content-section">
             <div class="section-header">
                 <h4><i class="bi bi-calendar-check me-2"></i>Llista de Lloguers</h4>
-                <a href="afegir-lloguer.html" class="btn btn-primary-custom">
+                <a href="addAlquiler.php" class="btn btn-primary-custom">
                     <i class="bi bi-plus-lg me-2"></i>Afegir Lloguer
                 </a>
             </div>
@@ -400,86 +400,10 @@
                             <td><span class="badge-custom badge-actiu">Actiu</span></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="editar-lloguer.html?id=1" class="btn-action btn-edit">
+                                    <a href="editAlquiler.php?id=" class="btn-action btn-edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="eliminar-lloguer.php?id=1" class="btn-action btn-delete">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>26/11/2024</td>
-                            <td>30/11/2024</td>
-                            <td>380€</td>
-                            <td><span class="badge-custom badge-actiu">Actiu</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-lloguer.html?id=2" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="eliminar-lloguer.php?id=2" class="btn-action btn-delete">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td>20/11/2024</td>
-                            <td>23/11/2024</td>
-                            <td>330€</td>
-                            <td><span class="badge-custom badge-completat">Completat</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-lloguer.html?id=3" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="eliminar-lloguer.php?id=3" class="btn-action btn-delete">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>1</td>
-                            <td>4</td>
-                            <td>15/11/2024</td>
-                            <td>18/11/2024</td>
-                            <td>315€</td>
-                            <td><span class="badge-custom badge-completat">Completat</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-lloguer.html?id=4" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="eliminar-lloguer.php?id=4" class="btn-action btn-delete">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>10/11/2024</td>
-                            <td>12/11/2024</td>
-                            <td>190€</td>
-                            <td><span class="badge-custom badge-cancelat">Cancel·lat</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="editar-lloguer.html?id=5" class="btn-action btn-edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a href="eliminar-lloguer.php?id=5" class="btn-action btn-delete">
+                                    <a href="removeAlquiler.php?id=" class="btn-action btn-delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
