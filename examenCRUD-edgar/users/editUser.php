@@ -1,3 +1,52 @@
+<?php
+session_start();
+require_once '../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'user'){
+    header('Location: ../login.php');
+    exit();
+}
+
+$nombre = $_SESSION['user_name'];
+$apellido = $_SESSION['user_apellido'];
+$role = $_SESSION['user_role'];
+$direccion = $_SESSION['user_direccion'];
+$email = $_SESSION['user_email'];
+
+$stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$user = $resultado ->fetch_assoc();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $direccion = $_POST['direccion'];
+
+    $password_hasheada = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $mysqli->prepare("UPDATE users SET role = ?, nombre= ?, apellido= ?, email = ?, password = ?, direccion = ?, WHERE id = ?");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('ssssssi',$role, $nombre, $apellido, $email, $password_hasheada, $direccion, $id);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: adminUsuario.php');
+        exit();
+    }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -292,19 +341,19 @@
 
             <div class="info-row">
                 <div class="info-label">Nom:</div>
-                <div class="info-value">Joan</div>
+                <div class="info-value"><?= $nombre ?></div>
             </div>
             <div class="info-row">
                 <div class="info-label">Cognom:</div>
-                <div class="info-value">Pérez García</div>
+                <div class="info-value"><?= $apellido ?></div>
             </div>
             <div class="info-row">
                 <div class="info-label">Correu Electrònic:</div>
-                <div class="info-value">joan.perez@email.com</div>
+                <div class="info-value"><?= $email ?></div>
             </div>
             <div class="info-row">
                 <div class="info-label">Direcció:</div>
-                <div class="info-value">Carrer Major, 123, Barcelona</div>
+                <div class="info-value"><?= $direccion ?></div>
             </div>
         </div>
 
@@ -319,25 +368,25 @@
                     <!-- Nom -->
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" value="Joan" required>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?= $user['nombre'] ?>" required>
                     </div>
 
                     <!-- Cognom -->
                     <div class="col-md-6">
                         <label for="apellido" class="form-label">Cognom</label>
-                        <input type="text" class="form-control" id="apellido" name="apellido" value="Pérez García" required>
+                        <input type="text" class="form-control" id="apellido" name="apellido" value="<?= $user['apellido'] ?>" required>
                     </div>
 
                     <!-- Email -->
                     <div class="col-12">
                         <label for="email" class="form-label">Correu Electrònic</label>
-                        <input type="email" class="form-control" id="email" name="email" value="joan.perez@email.com" required>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $user['email'] ?>" required>
                     </div>
 
                     <!-- Direcció -->
                     <div class="col-12">
                         <label for="direccion" class="form-label">Direcció</label>
-                        <input type="text" class="form-control" id="direccion" name="direccion" value="Carrer Major, 123, Barcelona" required>
+                        <input type="text" class="form-control" id="direccion" name="direccion" value="<?= $user['direccion'] ?>" required>
                     </div>
                 </div>
 
@@ -350,20 +399,10 @@
                         <!-- Contrasenya Actual -->
                         <div class="col-md-12">
                             <label for="current_password" class="form-label">Contrasenya Actual</label>
-                            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Introdueix la teva contrasenya actual">
+                            <input type="password" class="form-control" id="current_password" name="current_password"  value="<?= $user['password'] ?>" placeholder="Introdueix la teva contrasenya actual">
                         </div>
 
-                        <!-- Nova Contrasenya -->
-                        <div class="col-md-6">
-                            <label for="password" class="form-label">Nova Contrasenya</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Mínim 8 caràcters">
-                        </div>
-
-                        <!-- Confirmar Nova Contrasenya -->
-                        <div class="col-md-6">
-                            <label for="confirm_password" class="form-label">Confirmar Nova Contrasenya</label>
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Repeteix la nova contrasenya">
-                        </div>
+                        
                     </div>
                 </div>
 

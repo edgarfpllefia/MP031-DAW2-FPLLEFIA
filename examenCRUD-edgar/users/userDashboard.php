@@ -1,3 +1,25 @@
+<?php
+session_start();
+require_once '../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'user'){
+    header('Location: ../login.php');
+    exit();
+}
+
+$nombre = $_SESSION['user_name'];
+$role = $_SESSION['user_role'];
+
+$stmt = $mysqli->query("SELECT id, nombre, marca, modelo, matricula, precio_dia
+FROM vehiculos
+WHERE estado = 'disponible';");
+
+$disponibles = $stmt ->fetch_all(MYSQLI_ASSOC);
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -411,16 +433,16 @@
     <div class="main-content">
         <!-- Top Bar -->
         <div class="top-bar">
-            <h2>Benvingut, !</h2>
+            <h2>Benvingut, <?= $nombre ?>!</h2>
             <div style="display: flex; align-items: center; gap: 15px;">
-                <a href="editar-perfil.html" class="btn-edit-profile">
+                <a href="editUser.php" class="btn-edit-profile">
                     <i class="bi bi-person-gear"></i>
                     Editar Perfil
                 </a>
                 <div class="user-profile">
                     <div class="user-info">
-                        <h5>nombre</h5>
-                        <p>tipo de role</p>
+                        <h5><?= $nombre ?></h5>
+                        <p><?= $role ?></p>
                     </div>
                     <div class="user-avatar">
                         avatar
@@ -473,19 +495,20 @@
             </div>
             
             <div class="vehicles-grid">
+                <?php foreach($disponibles as $d):?>
                 <!-- Vehicle Card 1 -->
                 <div class="vehicle-card">
-                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400" alt="Mercedes Classe A" class="vehicle-card-img">
+                    <img src="<?= $d['foto'] ?>" alt="Mercedes Classe A" class="vehicle-card-img">
                     <div class="vehicle-card-body">
-                        <div class="vehicle-card-title">Mercedes Classe A Blanc</div>
-                        <p style="color: #7f8c8d; margin: 0; font-size: 0.9rem;">Mercedes-Benz</p>
+                        <div class="vehicle-card-title"><?= $d['nombre'] ?></div>
+                        <p style="color: #7f8c8d; margin: 0; font-size: 0.9rem;"><?= $d['modelo'] ?></p>
                         <div class="vehicle-card-info">
-                            <div class="vehicle-price">95€ <span>/dia</span></div>
+                            <div class="vehicle-price"><?= $d['precio'] ?> <span>/dia</span></div>
                             <a href="#" class="btn-rent">Llogar</a>
                         </div>
                     </div>
                 </div>
-
+                    <?php endforeach; ?>
             </div>
         </div>
 

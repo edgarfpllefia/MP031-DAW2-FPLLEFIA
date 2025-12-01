@@ -1,3 +1,48 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+    if($resultado -> num_rows === 1){
+        $usuario = $resultado->fetch_assoc();
+    }
+
+    if(password_verify($password, $usuario['password'])){
+        $_SESSION['user_id'] = $usuario['id'];
+        $_SESSION['user_apellido'] = $usuario['apellido'];
+        $_SESSION['user_direccion'] = $usuario['direccion'];
+        $_SESSION['user_name'] = $usuario['nombre'];
+        $_SESSION['user_email'] = $usuario['email'];
+        $_SESSION['user_role'] = $usuario['role'];
+
+        if($_SESSION['user_role'] === 'admin'){
+            header('Location: admin/adminDashboard.php');
+            exit();
+        }
+
+        if($_SESSION['user_role'] === 'user'){
+            header('Location: users/userDashboard.php');
+            exit();
+        }
+
+    }else{
+        echo "Password incorrecto";
+    }
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

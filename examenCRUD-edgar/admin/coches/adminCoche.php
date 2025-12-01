@@ -1,3 +1,17 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+$stmt = $mysqli->query("SELECT * FROM vehiculos");
+$vehiculos = $stmt->fetch_all(MYSQLI_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -464,34 +478,34 @@
                             <th>Model</th>
                             <th>Matrícula</th>
                             <th>Any</th>
-                            <th>Color</th>
                             <th>Preu/Dia</th>
                             <th>Estat</th>
                             <th>Accions</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach($vehiculos as $v): ?>
                         <tr>
-                            <td>#V001</td>
-                            <td><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=200" alt="Tesla" class="vehicle-img"></td>
-                            <td>Tesla</td>
-                            <td>Model S</td>
-                            <td>ABC-1234</td>
-                            <td>2023</td>
-                            <td>Negre</td>
-                            <td>120€</td>
-                            <td><span class="badge-custom badge-success">Disponible</span></td>
+                            <td><?= $v['id'] ?></td>
+                            <td><img src="<?= $v['foto'] ?>" alt="Tesla" class="vehicle-img"></td>
+                            <td><?= $v['nombre'] ?></td>
+                            <td><?= $v['marca'] ?></td>
+                            <td><?= $v['modelo'] ?></td>
+                            <td><?= $v['matricula'] ?></td>
+                            <td><?= $v['precio_dia'] ?></td>
+                            <td><span class="badge-custom badge-success"><?= $v['estado'] ?></span></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="editCoche.php?id="><button class="btn-action btn-edit">
+                                    <a href="editCoche.php?id=<?= $v['id'] ?>"><button class="btn-action btn-edit">
                                         <i class="bi bi-pencil"></i>
                                     </button></a>
-                                    <a href="deleteCoche.php?id="><button class="btn-action btn-delete" >
+                                    <a href="deleteCoche.php?id=<?= $v['id'] ?>"><button class="btn-action btn-delete" >
                                         <i class="bi bi-trash"></i>
                                     </button></a>
                                 </div>
                             </td>
                         </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

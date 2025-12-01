@@ -1,3 +1,39 @@
+<?php
+session_start();
+require_once '../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'user'){
+    header('Location: ../login.php');
+    exit();
+}
+
+$nombre = $_SESSION['user_name'];
+$role = $_SESSION['user_role'];
+$email = $_SESSION['user_email'];
+
+$stmt = $mysqli("SELECT a.id,
+       v.nombre AS vehiculo,
+       v.marca,
+       v.modelo,
+       a.fecha_inicio,
+       a.fecha_fin,
+       a.precio_total,
+       a.estado
+FROM alquileres a
+JOIN users u ON a.id_user = u.id
+JOIN vehiculos v ON a.id_vehiculo = v.id
+WHERE u.email = ?
+  AND a.estado = 'completado';");
+
+$stmt ->bind_param("s", $email);
+$stmt->execute();
+$prepare = $stmt->get_result();
+$historial = $prepare->fetch_all(MYSQLI_ASSOC);
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -443,27 +479,28 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($historial as $h):?>
                         <tr>
                             <td>1</td>
                             <td>
                                 <div style="display: flex; align-items: center; gap: 15px;">
-                                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=200" alt="Tesla Model S" class="vehicle-img">
-                                    <strong>Tesla Model S Negre</strong>
+                                    <img src="<?= $h['foto'] ?>" alt="Tesla Model S" class="vehicle-img">
+                                    <strong><?= $h['nombre'] ?></strong>
                                 </div>
                             </td>
                             <td>
                                 <div>
                                     <strong>Tesla</strong><br>
-                                    <small style="color: #7f8c8d;">Model S</small>
+                                    <small style="color: #7f8c8d;"><?= $h['modelo'] ?></small>
                                 </div>
                             </td>
-                            <td>25/11/2024</td>
-                            <td>28/11/2024</td>
+                            <td><?= $h['fecha_inicio'] ?></td>
+                            <td><?= $h['fecha_fin'] ?></td>
                             <td>3 dies</td>
-                            <td><strong style="color: #ff6b35;">360€</strong></td>
-                            <td><span class="badge-custom badge-actiu">Actiu</span></td>
+                            <td><strong style="color: #ff6b35;"><?= $h['precio_dia'] ?></strong></td>
+                            <td><span class="badge-custom badge-actiu"><?= $h['estado'] ?></span></td>
                         </tr>
-        
+                            <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

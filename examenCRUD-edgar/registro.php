@@ -1,3 +1,35 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $direccion = $_POST['direccion'];
+
+    $password_hasheada = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $mysqli->prepare("INSERT INTO users (role, nombre, apellido, email, password, direccion) VALUES ('user', ?,?,?,?,?)");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('sssss', $nombre, $apellido, $email, $password_hasheada, $direccion);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: login.php');
+        exit();
+    }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -199,7 +231,7 @@
                 
                 <!-- Enlace a Login -->
                 <div class="login-link">
-                    ¿Ya tienes cuenta? <a href="login.html">Inicia Sesión</a>
+                    ¿Ya tienes cuenta? <a href="login.php">Inicia Sesión</a>
                 </div>
             </div>
         </div>

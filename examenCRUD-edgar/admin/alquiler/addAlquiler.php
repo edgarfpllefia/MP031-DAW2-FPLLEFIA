@@ -1,3 +1,38 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $id_user = $_POST['id_user'];
+    $id_vehiculo = $_POST['id_vehiculo'];
+    $fecha_inicio = $_POST['fecha_inicio'];
+    $fecha_fin = $_POST['fecha_fin'];
+    $precio_total = $_POST['precio_total'];
+    $estado = $_POST['estado'];
+
+    $stmt = $mysqli->prepare("INSERT INTO alquileres (id_user, id_vehiculo, fecha_inicio, fecha_fin, precio_total, estado) VALUES (?,?,?,?,?, ?)");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('ssssss', $id_user, $id_vehiculo, $fecha_inicio, $fecha_fin, $precio_total, $estado);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: adminAlquiler.php');
+        exit();
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>

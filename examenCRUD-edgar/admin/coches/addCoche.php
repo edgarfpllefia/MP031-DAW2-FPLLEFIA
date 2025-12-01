@@ -1,3 +1,39 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $nombre = $_POST['nombre'];
+    $marca = $_POST['marca'];
+    $modelo = $_POST['modelo'];
+    $matricula = $_POST['matricula'];
+    $foto = $_POST['foto'];
+    $precio_dia = $_POST['precio_dia'];
+    $estado = $_POST['estado'];
+
+    $stmt = $mysqli->prepare("INSERT INTO vehiculos (nombre, marca, modelo, matricula, foto, precio_dia, estado ) VALUES (?,?,?,?,?,?,?)");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('sssssss', $nombre, $marca, $modelo, $matricula, $foto, $precio_dia, $estado);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: adminCoche.php');
+        exit();
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -300,8 +336,7 @@
                         <label for="estado" class="form-label">Estat</label>
                         <select class="form-select" id="estado" name="estado" required>
                             <option value="disponible" selected>Disponible</option>
-                            <option value="alquilado">Llogat</option>
-                            <option value="mantenimento">Manteniment</option>
+                            <option value="no disponible">No disponible</option>
                         </select>
                     </div>
 

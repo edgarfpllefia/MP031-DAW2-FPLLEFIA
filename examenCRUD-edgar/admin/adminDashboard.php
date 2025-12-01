@@ -1,3 +1,17 @@
+<?php
+session_start();
+require_once '../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../login.php');
+    exit();
+}
+
+$nombre = $_SESSION['user_name'];
+$role = $_SESSION['user_role'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -281,8 +295,8 @@
             <h2>Dashboard</h2>
             <div class="admin-profile">
                 <div class="admin-info">
-                    <h5>Admin User</h5>
-                    <p>Administrador</p>
+                    <h5>Admin <?= $nombre ?></h5>
+                    <p>rol : <?= $role ?></p>
                 </div>
                 <div class="admin-avatar">
                     <i class="bi bi-person"></i>

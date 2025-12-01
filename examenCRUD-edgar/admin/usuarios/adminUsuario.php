@@ -1,3 +1,17 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+$stmt = $mysqli->query("SELECT * FROM users");
+$users = $stmt->fetch_all(MYSQLI_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -395,24 +409,26 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach($users as $u): ?>
                         <tr>
-                            <td>1</td>
-                            <td>Joan</td>
-                            <td>Pérez García</td>
-                            <td>joan.perez@email.com</td>
-                            <td>Carrer Major, 123, Barcelona</td>
-                            <td><span class="badge-custom badge-client">Client</span></td>
+                            <td><?= $u['id'] ?></td>
+                            <td><?= $u['nombre'] ?></td>
+                            <td><?= $u['apellido'] ?></td>
+                            <td><?= $u['email'] ?></td>
+                            <td><?= $u['direccion'] ?></td>
+                            <td><span class="badge-custom badge-client"><?= $u['role'] ?></span></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="editUsuario.php?id=" class="btn-action btn-edit">
+                                    <a href="editUsuario.php?id=<?= $u['id'] ?>" class="btn-action btn-edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="deleteUsuario.php?id="><button class="btn-action btn-delete">
+                                    <a href="deleteUsuario.php?id=<?= $u['id'] ?>"><button class="btn-action btn-delete">
                                         <i class="bi bi-trash"></i>
                                     </button></a>
                                 </div>
                             </td>
                         </tr>
+                        <?php endforeach ?>
                     </tbody>
                 </table>
             </div>

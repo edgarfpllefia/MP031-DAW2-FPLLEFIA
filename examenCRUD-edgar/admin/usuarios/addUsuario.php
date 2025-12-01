@@ -1,3 +1,40 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $direccion = $_POST['direccion'];
+    $role = $_POST['role'];
+
+    $password_hasheada = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $mysqli->prepare("INSERT INTO users (role, nombre, apellido, email, password, direccion) VALUES ('user', ?,?,?,?,?)");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('sssss', $nombre, $apellido, $email, $password_hasheada, $direccion);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: adminUsuario.php');
+        exit();
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>

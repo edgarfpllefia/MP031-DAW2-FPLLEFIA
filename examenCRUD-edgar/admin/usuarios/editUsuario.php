@@ -1,3 +1,52 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+if(!isset($_GET['id']) || empty($_GET['id'])){
+    header('Location: adminDashboard.php');
+    exit();
+}else{
+    $id = (int) $_GET['id'];
+}
+
+$stmt = $mysqli->prepare("SELECT * FROM users WHERE id = $id");
+$stmt->execute();
+$resultado = $stmt->get_result();
+$user = $resultado ->fetch_assoc();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $direccion = $_POST['direccion'];
+    $role = $_POST['role'];
+
+    $password_hasheada = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $mysqli->prepare("UPDATE users SET role = ?, nombre= ?, apellido= ?, email = ?, password = ?, direccion = ?, WHERE id = ?");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('ssssssi',$role, $nombre, $apellido, $email, $password_hasheada, $direccion, $id);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: adminUsuario.php');
+        exit();
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -270,33 +319,33 @@
 
         <!-- Form Section -->
         <div class="content-section">
-            <form action="" method="POST">
+            <form action="editUsuario.php" method="POST">
                 <!-- Hidden ID field -->
-                <input type="hidden" name="id" value="1">
+                <input type="hidden" name="id" value="<?= $user['id'] ?>">
                 
                 <div class="row g-3">
                     <!-- Nom -->
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" value="Joan" required>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?= $user['nombre'] ?>" required>
                     </div>
 
                     <!-- Cognom -->
                     <div class="col-md-6">
                         <label for="apellido" class="form-label">Cognom</label>
-                        <input type="text" class="form-control" id="apellido" name="apellido" value="Pérez García" required>
+                        <input type="text" class="form-control" id="apellido" name="apellido" value="<?= $user['apellido'] ?>" required>
                     </div>
 
                     <!-- Email -->
                     <div class="col-12">
                         <label for="email" class="form-label">Correu Electrònic</label>
-                        <input type="email" class="form-control" id="email" name="email" value="joan.perez@email.com" required>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= $user['email'] ?>" required>
                     </div>
 
                     <!-- Direcció -->
                     <div class="col-12">
                         <label for="direccion" class="form-label">Direcció</label>
-                        <input type="text" class="form-control" id="direccion" name="direccion" value="Carrer Major, 123, Barcelona" required>
+                        <input type="text" class="form-control" id="direccion" name="direccion" value="<?= $user['direccion'] ?>" required>
                     </div>
 
                     <!-- Role -->

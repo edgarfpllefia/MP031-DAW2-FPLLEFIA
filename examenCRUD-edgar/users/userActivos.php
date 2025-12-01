@@ -1,3 +1,40 @@
+<?php
+session_start();
+require_once '../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'user'){
+    header('Location: ../login.php');
+    exit();
+}
+
+$nombre = $_SESSION['user_name'];
+$email = $_SESSION['user_email'];
+$role = $_SESSION['user_role'];
+
+$stmt = $mysqli->prepare("SELECT a.id,
+       v.nombre AS vehiculo,
+       v.marca,
+       v.modelo,
+       a.fecha_inicio,
+       a.fecha_fin,
+       a.precio_total,
+       a.estado
+FROM alquileres a
+JOIN users u ON a.id_user = u.id
+JOIN vehiculos v ON a.id_vehiculo = v.id
+WHERE u.email = ?
+  AND a.estado IN ('en curso', 'reservado');");
+
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$activos = $resultado ->fetch_all(MYSQLI_ASSOC);
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -434,7 +471,7 @@
             <h2>Lloguers Actius</h2>
             <div class="user-profile">
                 <div class="user-info">
-                    <h5>Joan Pérez</h5>
+                    <h5><?= $nombre ?></h5>
                     <p>Client</p>
                 </div>
                 <div class="user-avatar">
@@ -478,38 +515,36 @@
                         <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400" alt="Tesla Model S" class="rental-card-img">
                         <span class="badge-actiu">Actiu</span>
                     </div>
-                    <div class="rental-card-body">
-                        <div class="rental-card-title">Tesla Model S Negre</div>
-                        <p class="rental-card-brand">Tesla • Model S</p>
+                    <?php foreach($activos as $a):?>
+                    <div class="rental-card-body"><?= $a[''] ?>
+                        <div class="rental-card-title"><?= $a['nombre'] ?></div>
+                        <p class="rental-card-brand"><?= $a['modelo'] ?></p>
                         
                         <div class="rental-info-row">
                             <i class="bi bi-credit-card rental-info-icon"></i>
                             <div class="rental-info-label">Matrícula:</div>
-                            <div class="rental-info-value">ABC-1234</div>
+                            <div class="rental-info-value"><?= $a['matricula'] ?></div>
                         </div>
                         
                         <div class="rental-info-row">
                             <i class="bi bi-calendar-event rental-info-icon"></i>
                             <div class="rental-info-label">Data Inici:</div>
-                            <div class="rental-info-value">25/11/2024</div>
+                            <div class="rental-info-value"><?= $a['fecha_inicio'] ?></div>
                         </div>
                         
                         <div class="rental-info-row">
                             <i class="bi bi-calendar-x rental-info-icon"></i>
                             <div class="rental-info-label">Data Fi:</div>
-                            <div class="rental-info-value">28/11/2024</div>
+                            <div class="rental-info-value"><?= $a['fecha_fin'] ?></div>
                         </div>
                         
                         <div class="rental-info-row">
                             <i class="bi bi-cash rental-info-icon"></i>
                             <div class="rental-info-label">Preu/Dia:</div>
-                            <div class="rental-info-value">120€</div>
+                            <div class="rental-info-value"><?= $a['precio_dia'] ?></div>
                         </div>
                     </div>
-                    <div class="rental-card-footer">
-                        <div class="rental-total">360€</div>
-                        <div class="rental-days">3 dies</div>
-                    </div>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>

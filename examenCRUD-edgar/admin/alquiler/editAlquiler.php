@@ -1,3 +1,53 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+if(!isset($_GET['id']) || empty($_GET['id'])){
+    header('Location: adminDashboard.php');
+    exit();
+}else{
+    $id = (int) $_GET['id'];
+}
+
+$stmt = $mysqli->prepare("SELECT * FROM alquileres WHERE id = $id");
+$stmt->execute();
+$resultado = $stmt->get_result();
+$alquiler = $resultado ->fetch_assoc();
+
+
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $id_user = $_POST['id_user'];
+    $id_vehiculo = $_POST['id_vehiculo'];
+    $fecha_inicio = $_POST['fecha_inicio'];
+    $fecha_fin = $_POST['fecha_fin'];
+    $precio_total = $_POST['precio_total'];
+    $estado = $_POST['estado'];
+
+    $stmt = $mysqli->prepare("UPDATE alquileres SET id_user= ?, id_vehiculo = ?, fecha_inicio = ?, fecha_fin = ?, precio_total = ?, estado = ?");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('ssssss', $id_user, $id_vehiculo, $fecha_inicio, $fecha_fin, $precio_total, $estado);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: adminAlquiler.php');
+        exit();
+    }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -258,39 +308,39 @@
         <div class="content-section">
             <form action="editAlquiler.php" method="POST">
                 <!-- Hidden ID field -->
-                <input type="hidden" name="id" value="1">
+                <input type="hidden" name="id" value="<?= $alquiler['id'] ?>">
                 
                 <div class="row g-3">
                     <!-- ID User -->
                     <div class="col-md-6">
                         <label for="id_user" class="form-label">ID Usuari</label>
-                        <input type="number" class="form-control" id="id_user" name="id_user" value="" min="1" required>
+                        <input type="number" class="form-control" id="id_user" name="id_user" value="<?= $alquiler['id_user'] ?>" min="1" required>
                         <small class="text-muted">ID del client que fa el lloguer</small>
                     </div>
 
                     <!-- ID Vehiculo -->
                     <div class="col-md-6">
                         <label for="id_vehiculo" class="form-label">ID Vehicle</label>
-                        <input type="number" class="form-control" id="id_vehiculo" name="id_vehiculo" value="" min="1" required>
+                        <input type="number" class="form-control" id="id_vehiculo" name="id_vehiculo" value="<?= $alquiler['id_vehiculo'] ?>" min="1" required>
                         <small class="text-muted">ID del vehicle llogat</small>
                     </div>
 
                     <!-- Fecha Inicio -->
                     <div class="col-md-6">
                         <label for="fecha_inicio" class="form-label">Data d'Inici</label>
-                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="" required>
+                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="<?= $alquiler['fecha_inicio'] ?>" required>
                     </div>
 
                     <!-- Fecha Fin -->
                     <div class="col-md-6">
                         <label for="fecha_fin" class="form-label">Data de Fi</label>
-                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="" required>
+                        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="<?= $alquiler['fecha_fin'] ?>" required>
                     </div>
 
                     <!-- Precio Total -->
                     <div class="col-md-6">
                         <label for="precio_total" class="form-label">Preu Total (€)</label>
-                        <input type="number" class="form-control" id="precio_total" name="precio_total" value="" min="0" step="0.01" required>
+                        <input type="number" class="form-control" id="precio_total" name="precio_total" value="<?= $alquiler['precio_total'] ?>" min="0" step="0.01" required>
                         <small class="text-muted">Preu total del lloguer</small>
                     </div>
 
@@ -298,7 +348,8 @@
                     <div class="col-md-6">
                         <label for="estado" class="form-label">Estat</label>
                         <select class="form-select" id="estado" name="estado" required>
-                            <option value="activo" selected>Actiu</option>
+                            <option value="<?= $alquiler['estado'] ?>" selected>Actiu</option>
+                            <option value="activo">Actiu</option>
                             <option value="completado">Completat</option>
                             <option value="cancelado">Cancel·lat</option>
                         </select>
@@ -310,7 +361,7 @@
                     <button type="submit" class="btn btn-primary-custom">
                         <i class="bi bi-save me-2"></i>Actualitzar Lloguer
                     </button>
-                    <a href="gestio-lloguers.html" class="btn btn-secondary-custom">
+                    <a href="adminAlquiler.php" class="btn btn-secondary-custom">
                         <i class="bi bi-x-circle me-2"></i>Cancel·lar
                     </a>
                 </div>

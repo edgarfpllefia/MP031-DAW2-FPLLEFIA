@@ -1,3 +1,53 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+if(!isset($_GET['id']) || empty($_GET['id'])){
+    header('Location: adminDashboard.php');
+    exit();
+}else{
+    $id = (int) $_GET['id'];
+}
+
+$stmt = $mysqli->prepare("SELECT * FROM vehiculos WHERE id = $id");
+$stmt->execute();
+$resultado = $stmt->get_result();
+$coche = $resultado ->fetch_assoc();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    $nombre = $_POST['nombre'];
+    $marca = $_POST['marca'];
+    $modelo = $_POST['modelo'];
+    $matricula = $_POST['matricula'];
+    $foto = $_POST['foto'];
+    $precio_dia = $_POST['precio_dia'];
+    $estado = $_POST['estado'];
+
+    $stmt = $mysqli->prepare("UPDATE vehiculos SET nombre= ?, marca = ?, modelo = ?, matricula = ?, foto = ?, precio_dia = ?, estado= ?");
+
+    if(!$stmt){
+        die("Error en la preparacion" . $mysqli->error);
+    }
+
+    $stmt->bind_param('sssssss', $nombre, $marca, $modelo, $matricula, $foto, $precio_dia, $estado);
+
+    if($stmt->execute()){
+        $stmt->close();
+        $mysqli->close();
+        header('Location: adminCoche.php');
+        exit();
+    }
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -286,38 +336,38 @@
         <div class="content-section">
             <form action="editCoche.php" method="POST">
                 <!-- Hidden ID field -->
-                <input type="hidden" name="id" value="1">
+                <input type="hidden" name="id" value="<?= $coche['id'] ?>">
                 
                 <div class="row g-3">
                     <!-- Nom -->
                     <div class="col-12">
                         <label for="nombre" class="form-label">Nom del Vehicle</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" value="" required>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?= $coche['nombre'] ?>" required>
                         <small class="text-muted">Nom descriptiu del vehicle</small>
                     </div>
 
                     <!-- Marca -->
                     <div class="col-md-6">
                         <label for="marca" class="form-label">Marca</label>
-                        <input type="text" class="form-control" id="marca" name="marca" value="" required>
+                        <input type="text" class="form-control" id="marca" name="marca" value="<?= $coche['marca'] ?>" required>
                     </div>
 
                     <!-- Model -->
                     <div class="col-md-6">
                         <label for="modelo" class="form-label">Model</label>
-                        <input type="text" class="form-control" id="modelo" name="modelo" value="" required>
+                        <input type="text" class="form-control" id="modelo" name="modelo" value="<?= $coche['modelo'] ?>" required>
                     </div>
 
                     <!-- Matrícula -->
                     <div class="col-md-6">
                         <label for="matricula" class="form-label">Matrícula</label>
-                        <input type="text" class="form-control" id="matricula" name="matricula" value="" required>
+                        <input type="text" class="form-control" id="matricula" name="matricula" value="<?= $coche['matricula'] ?>" required>
                     </div>
 
                     <!-- Preu per dia -->
                     <div class="col-md-6">
                         <label for="precio_dia" class="form-label">Preu per Dia (€)</label>
-                        <input type="number" class="form-control" id="precio_dia" name="precio_dia" value="" min="0" step="0.01" required>
+                        <input type="number" class="form-control" id="precio_dia" name="precio_dia" value="<?= $coche['precio_dia'] ?>" min="0" step="0.01" required>
                     </div>
 
                     <!-- Estat -->

@@ -1,3 +1,17 @@
+<?php
+session_start();
+require_once '../../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
+    header('Location: ../../login.php');
+    exit();
+}
+
+$stmt = $mysqli->query("SELECT * FROM alquileres");
+$alquileres = $stmt->fetch_all(MYSQLI_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -390,25 +404,27 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach($alquileres as $al): ?>
                         <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>25/11/2024</td>
-                            <td>28/11/2024</td>
-                            <td>360€</td>
-                            <td><span class="badge-custom badge-actiu">Actiu</span></td>
+                            <td><?= $al['id'] ?></td>
+                            <td><?= $al['id_user'] ?></td>
+                            <td><?= $al['id_vehiculo'] ?></td>
+                            <td><?= $al['fecha_inicio'] ?></td>
+                            <td><?= $al['fecha_fin'] ?></td>
+                            <td><?= $al['precio_total'] ?></td>
+                            <td><span class="badge-custom badge-actiu"><?= $al['estado'] ?></span></td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="editAlquiler.php?id=" class="btn-action btn-edit">
+                                    <a href="editAlquiler.php?id=<?= $al['id'] ?>" class="btn-action btn-edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="removeAlquiler.php?id=" class="btn-action btn-delete">
+                                    <a href="removeAlquiler.php?id=<?= $al['id'] ?>" class="btn-action btn-delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </td>
                         </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

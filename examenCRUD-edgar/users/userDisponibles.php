@@ -1,3 +1,24 @@
+<?php
+session_start();
+require_once '../config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'user'){
+    header('Location: ../login.php');
+    exit();
+}
+
+$nombre = $_SESSION['user_name'];
+$email = $_SESSION['user_email'];
+$role = $_SESSION['user_role'];
+
+$stmt = $mysqli->query("SELECT id, nombre, marca, modelo, matricula, precio_dia
+FROM vehiculos
+WHERE estado = 'disponible';");
+
+$disponibles = $stmt ->fetch_all(MYSQLI_ASSOC);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
@@ -390,93 +411,30 @@
             
             <!-- Vehicles Grid -->
             <div class="vehicles-grid">
+                <?php foreach($disponibles as $d): ?>
                 <!-- Vehicle Card 1 -->
                 <div class="vehicle-card">
                     <div style="position: relative;">
-                        <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400" alt="Mercedes Classe A" class="vehicle-card-img">
-                        <span class="badge-disponible">Disponible</span>
+                        <img src="<?= $d['foto'] ?>" alt="Mercedes Classe A" class="vehicle-card-img">
+                        <span class="badge-disponible"><?= $d['estado'] ?></span>
                     </div>
                     <div class="vehicle-card-body">
-                        <div class="vehicle-card-title">Mercedes Classe A Blanc</div>
-                        <p class="vehicle-card-brand">Mercedes-Benz • Model: Classe A</p>
+                        <div class="vehicle-card-title"><?= $d['nombre'] ?></div>
+                        <p class="vehicle-card-brand"><?= $d['marca'] ?> • <?= $d['modelo'] ?>/p>
                         <div class="vehicle-card-details">
                             <div class="vehicle-detail">
                                 <i class="bi bi-credit-card"></i>
-                                <span>DEF-5678</span>
+                                <span><?= $d['matricula'] ?></span>
                             </div>
                         </div>
                         <div class="vehicle-card-footer">
-                            <div class="vehicle-price">95€ <span>/dia</span></div>
+                            <div class="vehicle-price"><?= $d['precio_dia'] ?> <span>/dia</span></div>
                             <a href="#" class="btn-rent">Llogar</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Vehicle Card 2 -->
-                <div class="vehicle-card">
-                    <div style="position: relative;">
-                        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400" alt="BMW Sèrie 3" class="vehicle-card-img">
-                        <span class="badge-disponible">Disponible</span>
-                    </div>
-                    <div class="vehicle-card-body">
-                        <div class="vehicle-card-title">BMW Sèrie 3 Blau</div>
-                        <p class="vehicle-card-brand">BMW • Model: Sèrie 3</p>
-                        <div class="vehicle-card-details">
-                            <div class="vehicle-detail">
-                                <i class="bi bi-credit-card"></i>
-                                <span>GHI-9012</span>
-                            </div>
-                        </div>
-                        <div class="vehicle-card-footer">
-                            <div class="vehicle-price">110€ <span>/dia</span></div>
-                            <a href="#" class="btn-rent">Llogar</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Vehicle Card 3 -->
-                <div class="vehicle-card">
-                    <div style="position: relative;">
-                        <img src="https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400" alt="Audi A4" class="vehicle-card-img">
-                        <span class="badge-disponible">Disponible</span>
-                    </div>
-                    <div class="vehicle-card-body">
-                        <div class="vehicle-card-title">Audi A4 Gris</div>
-                        <p class="vehicle-card-brand">Audi • Model: A4</p>
-                        <div class="vehicle-card-details">
-                            <div class="vehicle-detail">
-                                <i class="bi bi-credit-card"></i>
-                                <span>JKL-3456</span>
-                            </div>
-                        </div>
-                        <div class="vehicle-card-footer">
-                            <div class="vehicle-price">105€ <span>/dia</span></div>
-                            <a href="#" class="btn-rent">Llogar</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Vehicle Card 4 -->
-                <div class="vehicle-card">
-                    <div style="position: relative;">
-                        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400" alt="Tesla Model S" class="vehicle-card-img">
-                        <span class="badge-disponible">Disponible</span>
-                    </div>
-                    <div class="vehicle-card-body">
-                        <div class="vehicle-card-title">Tesla Model S Negre</div>
-                        <p class="vehicle-card-brand">Tesla • Model: Model S</p>
-                        <div class="vehicle-card-details">
-                            <div class="vehicle-detail">
-                                <i class="bi bi-credit-card"></i>
-                                <span>ABC-1234</span>
-                            </div>
-                        </div>
-                        <div class="vehicle-card-footer">
-                            <div class="vehicle-price">120€ <span>/dia</span></div>
-                            <a href="#" class="btn-rent">Llogar</a>
-                        </div>
-                    </div>
-                </div>
+                    <?php endforeach;?>
+                
             </div>
         </div>
     </div>
