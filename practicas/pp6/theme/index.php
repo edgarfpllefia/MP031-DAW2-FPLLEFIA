@@ -1,6 +1,14 @@
 <?php
 require_once 'config.php';
 
+if(!isset($_SESSION['user_role'])){
+  echo "hola";
+  header('Location: ../login.php');
+}
+
+$usuario = $_SESSION['user_name'];
+$email = $_SESSION['user_email'];
+
 //Consulta para obtener lo de la tabla que consideres. Formato de la salida ->
 $users = $mysqli ->query("SELECT * FROM users");
 $testimonials = $mysqli ->query("SELECT * FROM testimonials");
@@ -12,26 +20,13 @@ $resultTestimonials = $testimonials -> fetch_all(MYSQLI_ASSOC);
 $resultdoProjects = $projects -> fetch_all(MYSQLI_ASSOC);
 $resultNews = $news -> fetch_all(MYSQLI_ASSOC);
 
-// foreach($resultUsers as $user){
-//     echo "<tr>
-//         <td>{$user['id']}</td>
-//         <td>{$user['name']}</td>
-//         <td>{$user['surname']}</td>
-//         </tr>";
-// }
+
 
 ?>
 
 <!DOCTYPE html>
 
-<!--
- // WEBSITE: https://themefisher.com
- // TWITTER: https://twitter.com/themefisher
- // FACEBOOK: https://www.facebook.com/themefisher
- // GITHUB: https://github.com/themefisher/
--->
-
-<html lang="zxx">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
