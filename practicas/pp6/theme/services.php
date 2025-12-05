@@ -1,3 +1,24 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if(!isset($_SESSION['user_role'])){
+  header('Location: ../login.php');
+}
+
+$services = [];
+if (isset($mysqli) && $mysqli) {
+  $stmt = $mysqli->prepare("SELECT id, foto, nombre_servicio, descripcion_servicio, fecha_creacion FROM services ORDER BY fecha_creacion DESC");
+  if ($stmt) {
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($res) $services = $res->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+  }
+}
+
+?>
+
 <!DOCTYPE html>
 
 <!--
@@ -31,6 +52,99 @@
 
   <!-- Main Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
+  <style>
+    /* COLORES PERSONALIZADOS RIDER ZONE (copiado de index.php) */
+    :root {
+      --primary-color: #ff5e00;
+      --primary-dark: #d84e00;
+      --secondary-color: #1e1e1e;
+      --dark-bg: #0f0f0f;
+      --gradient-primary: linear-gradient(135deg, #ff5e00 0%, #d84e00 100%);
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: #e0e0e0;
+    }
+
+    .section {
+      background: var(--dark-bg);
+      padding: 80px 0;
+    }
+
+    .section-title,
+    .section h2 {
+      color: #e0e0e0 !important;
+      font-weight: 700;
+    }
+
+    .lead,
+    .section p {
+      color: #b0b0b0 !important;
+    }
+
+    .section-border {
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-primary);
+      margin: 2rem auto;
+      border-radius: 2px;
+    }
+
+    .card {
+      background: rgba(30, 30, 30, 0.98) !important;
+      border: 1px solid rgba(255, 94, 0, 0.2) !important;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .card h4,
+    .card-title {
+      color: #e0e0e0 !important;
+    }
+
+    .card p,
+    .card i {
+      color: #b0b0b0 !important;
+    }
+
+    .icon-box {
+      background: var(--gradient-primary) !important;
+    }
+
+    .bg-gradient-primary {
+      background: var(--gradient-primary) !important;
+    }
+
+    .text-gradient-primary {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary) !important;
+      border: none !important;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 94, 0, 0.3);
+    }
+  </style>
   
   <!--Favicon-->
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -46,11 +160,11 @@ require_once 'modules/header.php'
 ?>
 
 <!-- page-title -->
-<section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
+<section class="page-title bg-cover" data-background="https://imgs.search.brave.com/2qDEBy5_82qNEpxrLT3JmLo7WufiSxra2Z8BsvPRVBI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNi8w/Mi8wMi8wNi8zOS90/aHJlZS1tb3RvcmN5/Y2xlcy0xMTc0ODYz/XzY0MC5qcGc">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="display-1 text-white font-weight-bold font-primary">Our Services</h1>
+        <h1 class="display-1 text-white font-weight-bold font-primary">Nuestros servicios</h1>
       </div>
     </div>
   </div>
@@ -61,78 +175,28 @@ require_once 'modules/header.php'
 <section class="section">
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-palette mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-palette"></i>
+      <?php if (!empty($services)): ?>
+        <?php foreach ($services as $svc): ?>
+          <?php
+            $img = !empty($svc['foto']) ? htmlspecialchars($svc['foto']) : 'images/services/default.jpg';
+            $name = !empty($svc['nombre_servicio']) ? htmlspecialchars($svc['nombre_servicio']) : 'Servicio';
+            $desc = !empty($svc['descripcion_servicio']) ? htmlspecialchars(mb_substr(strip_tags($svc['descripcion_servicio']),0,140)) : '';
+          ?>
+          <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card hover-bg-secondary shadow py-4">
+              <div class="card-body text-center">
+                <div class="position-relative">
+                  <img src="<?php echo $img; ?>" alt="<?php echo $name; ?>" class="img-fluid rounded-circle mb-3" style="width:80px;height:80px;object-fit:cover;">
+                </div>
+                <h4 class="mb-4"><?php echo $name; ?></h4>
+                <p><?php echo $desc; ?></p>
+              </div>
             </div>
-            <h4 class="mb-4">Design</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
           </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-dashboard mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-dashboard"></i>
-            </div>
-            <h4 class="mb-4">Development</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-announcement mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-announcement"></i>
-            </div>
-            <h4 class="mb-4">Marketing</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-game mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-game"></i>
-            </div>
-            <h4 class="mb-4">Apps</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-crown mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-crown"></i>
-            </div>
-            <h4 class="mb-4">Branding</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card hover-bg-secondary shadow py-4">
-          <div class="card-body text-center">
-            <div class="position-relative">
-              <i class="icon-lg icon-box bg-gradient-primary rounded-circle ti-bar-chart mb-5 d-inline-block text-white"></i>
-              <i class="icon-lg icon-watermark text-white ti-bar-chart"></i>
-            </div>
-            <h4 class="mb-4">Analytics</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-          </div>
-        </div>
-      </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <div class="col-12 text-center text-muted">No hay servicios disponibles.</div>
+      <?php endif; ?>
     </div>
   </div>
 </section>

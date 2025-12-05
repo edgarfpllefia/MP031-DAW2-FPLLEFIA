@@ -1,124 +1,111 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'user'){
+    header('Location: ../../login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
-
-<!--
- // WEBSITE: https://themefisher.com
- // TWITTER: https://twitter.com/themefisher
- // FACEBOOK: https://www.facebook.com/themefisher
- // GITHUB: https://github.com/themefisher/
--->
-
 <html lang="zxx">
-
 <head>
   <meta charset="utf-8">
   <title>Agen | Bootstrap Agency Template</title>
-
-  <!-- mobile responsive meta -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  
-  <!-- ** Plugins Needed for the Project ** -->
-  <!-- Bootstrap -->
   <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-  <!-- slick slider -->
   <link rel="stylesheet" href="plugins/slick/slick.css">
-  <!-- themefy-icon -->
   <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
-  <!-- venobox css -->
   <link rel="stylesheet" href="plugins/venobox/venobox.css">
-  <!-- card slider -->
   <link rel="stylesheet" href="plugins/card-slider/css/style.css">
-
-  <!-- Main Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
-  
-  <!--Favicon-->
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
+  <style>
+  .section.bg-light { background: #0f0f0f !important; }
+  .col-12.bg-white.p-4.mb-3 {
+      background: #1a1a1a !important;
+      border: 1px solid rgba(255,94,0,0.3);
+      border-radius: 8px;
+      transition: all 0.3s ease;
+  }
+  .col-12.bg-white.p-4.mb-3:hover {
+      transform: translateY(-8px);
+      border-color: #ff5e00;
+      box-shadow: 0 12px 30px rgba(255,94,0,0.25);
+  }
+  .media-body h4.text-secondary { color: #ff5e00 !important; margin-bottom: 0.5rem; }
+  .media-body p.mb-0 { color: #b0b0b0 !important; }
+  .btn-outline-primary {
+      border-color: #ff5e00;
+      color: #ff5e00;
+      transition: all 0.3s ease;
+  }
+  .btn-outline-primary:hover {
+      background: #ff5e00;
+      color: #fff;
+      border-color: #ff5e00;
+  }
+  .page-title h1.display-1 {
+      color: #ff5e00 !important;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+  }
+  footer.bg-secondary { background: #1e1e1e !important; }
+  footer h4 { color: #ff5e00 !important; }
+  footer a.text-light { color: #b0b0b0 !important; transition: all 0.3s ease; }
+  footer a.text-light:hover { color: #ff5e00 !important; }
+  </style>
 </head>
 
 <body>
-  
+<?php require_once 'modules/header.php' ?>
 
-<?php
-require_once 'modules/header.php'
-?>
-
-<!-- page-title -->
-<section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
+<section class="page-title bg-cover" data-background="https://imgs.search.brave.com/qx6KD-bu2d8j0DFXcQLHVZbjNnlhMwuwZErZlZzohLU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tb3Rv/ZGVzZW8uY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy9CTVctTS0x/MDAwLVhSXzA5OC0x/MDI0eDY4My5qcGc">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="display-1 text-white font-weight-bold font-primary">Career</h1>
+        <h1 class="display-1 text-white font-weight-bold font-primary">Trabaja con nosotros</h1>
       </div>
     </div>
   </div>
 </section>
-<!-- /page-title -->
 
 <section class="section bg-light">
   <div class="container">
     <div class="row">
+      <?php
+      $jobs = [];
+      if (!empty($mysqli)) {
+        if ($stmt = $mysqli->prepare("SELECT id, posicion, ciudad FROM jobs ORDER BY id DESC")) {
+          $stmt->execute();
+          $jobs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+          $stmt->close();
+        }
+      }
+
+      foreach ($jobs as $job):
+        $posicion = htmlspecialchars($job['posicion']);
+        $ciudad   = htmlspecialchars($job['ciudad']);
+      ?>
       <div class="col-12 bg-white p-4 mb-3">
         <div class="media align-items-center flex-column flex-sm-row">
           <div class="media-body text-center text-sm-left mb-4 mb-sm-0">
-            <h4 class="text-secondary">Revenue & Pricing Analyst</h4>
-            <p class="mb-0">Melbourne HQ</p>
+            <h4 class="text-secondary"><?= $posicion ?></h4>
+            <p class="mb-0"><?= $ciudad ?></p>
           </div>
-          <a href="career-details.html" class="btn btn-outline-primary">Apply Now</a>
+          <a href="career-details.php?id=<?= $job['id'] ?>" class="btn btn-outline-primary">Apply Now</a>
         </div>
       </div>
-      <div class="col-12 bg-white p-4 mb-3">
-        <div class="media align-items-center flex-column flex-sm-row">
-          <div class="media-body text-center text-sm-left mb-4 mb-sm-0">
-            <h4 class="text-secondary">Site Reliability Engineer</h4>
-            <p class="mb-0">Melbourne HQ</p>
-          </div>
-          <a href="career-details.html" class="btn btn-outline-primary">Apply Now</a>
-        </div>
-      </div>
-      <div class="col-12 bg-white p-4 mb-3">
-        <div class="media align-items-center flex-column flex-sm-row">
-          <div class="media-body text-center text-sm-left mb-4 mb-sm-0">
-            <h4 class="text-secondary">Product Analyst</h4>
-            <p class="mb-0">Melbourne HQ</p>
-          </div>
-          <a href="career-details.html" class="btn btn-outline-primary">Apply Now</a>
-        </div>
-      </div>
-      <div class="col-12 bg-white p-4 mb-3">
-        <div class="media align-items-center flex-column flex-sm-row">
-          <div class="media-body text-center text-sm-left mb-4 mb-sm-0">
-            <h4 class="text-secondary">Revenue & Pricing Analyst</h4>
-            <p class="mb-0">Melbourne HQ</p>
-          </div>
-          <a href="career-details.html" class="btn btn-outline-primary">Apply Now</a>
-        </div>
-      </div>
-      <div class="col-12 bg-white p-4 mb-3">
-        <div class="media align-items-center flex-column flex-sm-row">
-          <div class="media-body text-center text-sm-left mb-4 mb-sm-0">
-            <h4 class="text-secondary">Ruby Developer</h4>
-            <p class="mb-0">Melbourne HQ</p>
-          </div>
-          <a href="career-details.html" class="btn btn-outline-primary">Apply Now</a>
-        </div>
-      </div>
-      <div class="col-12 bg-white p-4 mb-3">
-        <div class="media align-items-center flex-column flex-sm-row">
-          <div class="media-body text-center text-sm-left mb-4 mb-sm-0">
-            <h4 class="text-secondary">Revenue & Pricing Analyst</h4>
-            <p class="mb-0">Melbourne HQ</p>
-          </div>
-          <a href="career-details.html" class="btn btn-outline-primary">Apply Now</a>
-        </div>
-      </div>
+      <?php endforeach; ?>
+      <?php if (empty($jobs)): ?>
+        <div class="col-12 text-center text-muted">No hay posiciones abiertas.</div>
+      <?php endif; ?>
     </div>
   </div>
 </section>
 
-<!-- footer -->
 <footer class="bg-secondary position-relative">
   <img src="images/backgrounds/map.png" class="img-fluid overlay-image" alt="">
   <div class="section">
@@ -177,30 +164,17 @@ require_once 'modules/header.php'
     </div>
   </div>
 </footer>
-<!-- /footer -->
 
-<!-- jQuery -->
 <script src="plugins/jQuery/jquery.min.js"></script>
-<!-- Bootstrap JS -->
 <script src="plugins/bootstrap/bootstrap.min.js"></script>
-<!-- slick slider -->
 <script src="plugins/slick/slick.min.js"></script>
-<!-- venobox -->
 <script src="plugins/venobox/venobox.min.js"></script>
-<!-- shuffle -->
 <script src="plugins/shuffle/shuffle.min.js"></script>
-<!-- apear js -->
 <script src="plugins/counto/apear.js"></script>
-<!-- counter -->
 <script src="plugins/counto/counTo.js"></script>
-<!-- card slider -->
 <script src="plugins/card-slider/js/card-slider-min.js"></script>
-<!-- google map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
 <script src="plugins/google-map/gmap.js"></script>
-
-<!-- Main Script -->
 <script src="js/script.js"></script>
-
 </body>
 </html>

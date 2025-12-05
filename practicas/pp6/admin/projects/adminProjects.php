@@ -4,20 +4,20 @@ require_once('../../theme/config.php');
 
 // Verificar que el usuario sea admin
 if((!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') && (!isset($_SESSION['user_rol']) || $_SESSION['user_rol'] !== 'admin')){
-    header('Location: ../../login.php');
+    header('Location: ../login.php');
     exit();
 }
 
 $user_name = $_SESSION['user_name'] ?? 'Admin';
 
-// Obtener noticias
-$stmt = $mysqli->prepare('SELECT id, date_publication, image, title, subtitle, description FROM news ORDER BY date_publication DESC');
+// Obtener proyectos
+$stmt = $mysqli->prepare('SELECT id, title, subtitle, description, photo, link, comments_count FROM projects ORDER BY id DESC');
 if(!$stmt){
     die('Error al preparar consulta: ' . $mysqli->error);
 }
 $stmt->execute();
 $res = $stmt->get_result();
-$news = $res->fetch_all(MYSQLI_ASSOC);
+$projects = $res->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 ?>
 
@@ -26,7 +26,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Noticias - Rider Zone</title>
+    <title>Gestión de Proyectos - Rider Zone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -220,7 +220,7 @@ $stmt->close();
             color: #ff5e00;
         }
 
-        .btn-new-news {
+        .btn-new-project {
             background: linear-gradient(135deg, #ff5e00 0%, #d84e00 100%);
             border: none;
             color: white;
@@ -235,7 +235,7 @@ $stmt->close();
             box-shadow: 0 4px 15px rgba(255, 94, 0, 0.3);
         }
 
-        .btn-new-news:hover {
+        .btn-new-project:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(255, 94, 0, 0.5);
             color: white;
@@ -294,17 +294,17 @@ $stmt->close();
             overflow-x: auto;
         }
 
-        .news-table {
+        .projects-table {
             margin: 0;
             color: #e0e0e0;
         }
 
-        .news-table thead {
+        .projects-table thead {
             background: rgba(255, 94, 0, 0.1);
             border-bottom: 1px solid rgba(255, 94, 0, 0.3);
         }
 
-        .news-table thead th {
+        .projects-table thead th {
             color: #ff5e00;
             font-weight: 600;
             border: none;
@@ -314,22 +314,22 @@ $stmt->close();
             letter-spacing: 0.5px;
         }
 
-        .news-table tbody tr {
+        .projects-table tbody tr {
             border-bottom: 1px solid rgba(255, 94, 0, 0.1);
             transition: all 0.3s ease;
         }
 
-        .news-table tbody tr:hover {
+        .projects-table tbody tr:hover {
             background: rgba(255, 94, 0, 0.05);
         }
 
-        .news-table tbody td {
+        .projects-table tbody td {
             color: #b0b0b0;
             padding: 1rem 1.5rem;
             vertical-align: middle;
         }
 
-        .news-image {
+        .project-image {
             width: 60px;
             height: 60px;
             border-radius: 6px;
@@ -337,8 +337,28 @@ $stmt->close();
             border: 1px solid rgba(255, 94, 0, 0.2);
         }
 
-        .news-title {
+        .project-title {
             color: #e0e0e0;
+            font-weight: 600;
+        }
+
+        .project-link {
+            color: #ff5e00;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            background: rgba(255, 94, 0, 0.3);
+            color: #ff5e00;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
             font-weight: 600;
         }
 
@@ -355,6 +375,7 @@ $stmt->close();
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
+            margin: 0.2rem;
         }
 
         .btn-edit {
@@ -440,7 +461,7 @@ $stmt->close();
                 font-size: 1.5rem;
             }
 
-            .btn-new-news {
+            .btn-new-project {
                 width: 100%;
                 justify-content: center;
             }
@@ -505,22 +526,34 @@ $stmt->close();
         </div>
 
         <div class="sidebar-menu">
-            <a href="../panelAdmin.php" class="menu-item">
+            <a href="panelAdmin.php" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="adminNews.php" class="menu-item active">
+            <a href="adminUsers.php" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="adminProjects.php" class="menu-item active">
+                <i class="fas fa-project-diagram"></i>
+                <span>Proyectos</span>
+            </a>
+            <a href="adminNews.php" class="menu-item">
                 <i class="fas fa-newspaper"></i>
                 <span>Noticias</span>
             </a>
-            <a href="../comments/adminComments.php" class="menu-item">
-                <i class="fas fa-comments-dollar"></i>
+            <a href="adminTestimonials.php" class="menu-item">
+                <i class="fas fa-comments"></i>
+                <span>Testimonios</span>
+            </a>
+            <a href="adminComments.php" class="menu-item">
+                <i class="fas fa-comment-dots"></i>
                 <span>Comentarios</span>
             </a>
             
             <div class="menu-separator"></div>
             
-            <a href="../../logout.php" class="menu-item">
+            <a href="../logout.php" class="menu-item">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Cerrar Sesión</span>
             </a>
@@ -538,7 +571,7 @@ $stmt->close();
                 <div class="user-avatar">
                     <?php echo strtoupper(substr($user_name, 0, 1)); ?>
                 </div>
-                <a href="../../logout.php" class="btn-logout">
+                <a href="../logout.php" class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i>Salir
                 </a>
             </div>
@@ -547,12 +580,12 @@ $stmt->close();
         <!-- HEADER SECTION -->
         <div class="header-section">
             <h2 class="header-title">
-                <i class="fas fa-newspaper"></i>
-                Gestión de Noticias
+                <i class="fas fa-project-diagram"></i>
+                Gestión de Proyectos
             </h2>
-            <a href="addNews.php" class="btn-new-news">
+            <a href="addProjects.php" class="btn-new-project">
                 <i class="fas fa-plus"></i>
-                Nueva Noticia
+                Nuevo Proyecto
             </a>
         </div>
 
@@ -580,56 +613,71 @@ $stmt->close();
         <?php endif; ?>
 
         <!-- TABLE SECTION -->
-        <?php if(empty($news)): ?>
+        <?php if(empty($projects)): ?>
             <div class="empty-state">
                 <div class="empty-state-icon">
-                    <i class="fas fa-newspaper"></i>
+                    <i class="fas fa-project-diagram"></i>
                 </div>
-                <h3 class="empty-state-title">Sin noticias</h3>
-                <p class="empty-state-text">No hay noticias registradas todavía.</p>
-                <a href="addNews.php" class="btn-new-news">
+                <h3 class="empty-state-title">Sin proyectos</h3>
+                <p class="empty-state-text">No hay proyectos registrados todavía.</p>
+                <a href="addProject.php" class="btn-new-project">
                     <i class="fas fa-plus"></i>
-                    Crear Primera Noticia
+                    Crear Primer Proyecto
                 </a>
             </div>
         <?php else: ?>
             <div class="table-container">
                 <div class="table-wrapper">
-                    <table class="table news-table">
+                    <table class="table projects-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Imagen</th>
                                 <th>Título</th>
-                                <th>Subtítulo</th>
-                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Enlace</th>
+                                <th>Comentarios</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($news as $n): ?>
+                            <?php foreach($projects as $p): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($n['id']); ?></td>
+                                    <td><?php echo htmlspecialchars($p['id']); ?></td>
                                     <td>
-                                        <?php if(!empty($n['image'])): ?>
-                                            <img src="../../theme/<?php echo htmlspecialchars($n['image']); ?>" alt="<?php echo htmlspecialchars($n['title']); ?>" class="news-image">
+                                        <?php if(!empty($p['photo'])): ?>
+                                            <img src="../theme/<?php echo htmlspecialchars($p['photo']); ?>" alt="<?php echo htmlspecialchars($p['title']); ?>" class="project-image">
                                         <?php else: ?>
-                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%23333' width='60' height='60'/%3E%3Ctext x='50%25' y='50%25' font-size='12' fill='%23888' text-anchor='middle' dy='.3em'%3ENo imagen%3C/text%3E%3C/svg%3E" alt="Sin imagen" class="news-image">
+                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%23333' width='60' height='60'/%3E%3Ctext x='50%25' y='50%25' font-size='12' fill='%23888' text-anchor='middle' dy='.3em'%3ENo imagen%3C/text%3E%3C/svg%3E" alt="Sin imagen" class="project-image">
                                         <?php endif; ?>
                                     </td>
-                                    <td class="news-title"><?php echo htmlspecialchars(substr($n['title'], 0, 40)); ?><?php echo strlen($n['title']) > 40 ? '...' : ''; ?></td>
-                                    <td><?php echo htmlspecialchars(substr($n['subtitle'], 0, 30)); ?><?php echo strlen($n['subtitle']) > 30 ? '...' : ''; ?></td>
-                                    <td><?php echo date('d/m/Y', strtotime($n['date_publication'])); ?></td>
                                     <td>
-                                        <a href="editNews.php?id=<?php echo urlencode($n['id']); ?>" class="btn-action btn-edit">
+                                        <div class="project-title"><?php echo htmlspecialchars(substr($p['title'], 0, 40)); ?><?php echo strlen($p['title']) > 40 ? '...' : ''; ?></div>
+                                        <small class="text-muted"><?php echo htmlspecialchars(substr($p['subtitle'], 0, 30)); ?><?php echo strlen($p['subtitle']) > 30 ? '...' : ''; ?></small>
+                                    </td>
+                                    <td><?php echo htmlspecialchars(substr($p['description'], 0, 50)); ?><?php echo strlen($p['description']) > 50 ? '...' : ''; ?></td>
+                                    <td>
+                                        <?php if(!empty($p['link'])): ?>
+                                            <a href="<?php echo htmlspecialchars($p['link']); ?>" target="_blank" class="project-link">
+                                                <i class="fas fa-external-link-alt"></i> Ver
+                                            </a>
+                                        <?php else: ?>
+                                            <span class="text-muted">Sin enlace</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <span class="badge"><?php echo $p['comments_count'] ?? 0; ?></span>
+                                    </td>
+                                    <td>
+                                        <a href="editProjects.php?id=<?=  $p['id']?> " class="btn-action btn-edit">
                                             <i class="fas fa-edit"></i>
                                             Editar
                                         </a>
-                                        <a href="comments.php?news_id=<?php echo urlencode($n['id']); ?>" class="btn-action btn-comments">
+                                        <a href="commentsProject.php?project_id=<?php echo urlencode($p['id']); ?>" class="btn-action btn-comments">
                                             <i class="fas fa-comments"></i>
                                             Comentarios
                                         </a>
-                                        <a href="deleteNews.php?id=<?php echo urlencode($n['id']); ?>" class="btn-action btn-delete" onclick="return confirm('¿Eliminar esta noticia?');">
+                                        <a href="deleteProjects.php?id=<?php echo urlencode($p['id']); ?>" class="btn-action btn-delete" onclick="return confirm('¿Eliminar este proyecto?');">
                                             <i class="fas fa-trash"></i>
                                             Eliminar
                                         </a>
@@ -644,21 +692,6 @@ $stmt->close();
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
-
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggle = document.querySelector('.menu-toggle');
-            
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !toggle.contains(event.target)) {
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-    </script>
+   
 </body>
 </html>

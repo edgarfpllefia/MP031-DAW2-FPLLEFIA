@@ -2,23 +2,17 @@
 session_start();
 require_once('../../theme/config.php');
 
-// Verificar que el usuario sea admin
-if((!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') && (!isset($_SESSION['user_rol']) || $_SESSION['user_rol'] !== 'admin')){
+if(!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin'){
     header('Location: ../../login.php');
     exit();
 }
 
-$user_name = $_SESSION['user_name'] ?? 'Admin';
+$user_name = $_SESSION['user_name'];
 
-// Obtener noticias
-$stmt = $mysqli->prepare('SELECT id, date_publication, image, title, subtitle, description FROM news ORDER BY date_publication DESC');
-if(!$stmt){
-    die('Error al preparar consulta: ' . $mysqli->error);
-}
-$stmt->execute();
-$res = $stmt->get_result();
-$news = $res->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
+// Obtener testimonios
+$sql = "SELECT * FROM testimonials ORDER BY id DESC";
+$result = $mysqli->query($sql);
+$testimonials = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +20,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Noticias - Rider Zone</title>
+    <title>Gestión de Testimonios - Rider Zone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -43,7 +37,6 @@ $stmt->close();
             position: relative;
         }
 
-        /* SIDEBAR */
         .sidebar {
             position: fixed;
             left: 0;
@@ -125,7 +118,6 @@ $stmt->close();
             margin: 1rem 1.5rem;
         }
 
-        /* MAIN CONTENT */
         .main-content {
             margin-left: 280px;
             padding: 2rem;
@@ -133,7 +125,6 @@ $stmt->close();
             background: #0f0f0f;
         }
 
-        /* TOP BAR */
         .top-bar {
             background: rgba(30, 30, 30, 0.98);
             border: 1px solid rgba(255, 94, 0, 0.2);
@@ -196,7 +187,6 @@ $stmt->close();
             color: white;
         }
 
-        /* HEADER SECTION */
         .header-section {
             display: flex;
             justify-content: space-between;
@@ -220,7 +210,7 @@ $stmt->close();
             color: #ff5e00;
         }
 
-        .btn-new-news {
+        .btn-new-testimonial {
             background: linear-gradient(135deg, #ff5e00 0%, #d84e00 100%);
             border: none;
             color: white;
@@ -235,14 +225,13 @@ $stmt->close();
             box-shadow: 0 4px 15px rgba(255, 94, 0, 0.3);
         }
 
-        .btn-new-news:hover {
+        .btn-new-testimonial:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(255, 94, 0, 0.5);
             color: white;
             text-decoration: none;
         }
 
-        /* MESSAGE ALERTS */
         .alert-box {
             background: rgba(30, 30, 30, 0.98);
             border: 1px solid rgba(255, 94, 0, 0.2);
@@ -281,7 +270,6 @@ $stmt->close();
             color: #e0e0e0;
         }
 
-        /* TABLE CONTAINER */
         .table-container {
             background: rgba(30, 30, 30, 0.98);
             border: 1px solid rgba(255, 94, 0, 0.2);
@@ -294,17 +282,17 @@ $stmt->close();
             overflow-x: auto;
         }
 
-        .news-table {
+        .testimonials-table {
             margin: 0;
             color: #e0e0e0;
         }
 
-        .news-table thead {
+        .testimonials-table thead {
             background: rgba(255, 94, 0, 0.1);
             border-bottom: 1px solid rgba(255, 94, 0, 0.3);
         }
 
-        .news-table thead th {
+        .testimonials-table thead th {
             color: #ff5e00;
             font-weight: 600;
             border: none;
@@ -314,35 +302,34 @@ $stmt->close();
             letter-spacing: 0.5px;
         }
 
-        .news-table tbody tr {
+        .testimonials-table tbody tr {
             border-bottom: 1px solid rgba(255, 94, 0, 0.1);
             transition: all 0.3s ease;
         }
 
-        .news-table tbody tr:hover {
+        .testimonials-table tbody tr:hover {
             background: rgba(255, 94, 0, 0.05);
         }
 
-        .news-table tbody td {
+        .testimonials-table tbody td {
             color: #b0b0b0;
             padding: 1rem 1.5rem;
             vertical-align: middle;
         }
 
-        .news-image {
+        .testimonial-image {
             width: 60px;
             height: 60px;
-            border-radius: 6px;
+            border-radius: 50%;
             object-fit: cover;
-            border: 1px solid rgba(255, 94, 0, 0.2);
+            border: 2px solid rgba(255, 94, 0, 0.2);
         }
 
-        .news-title {
+        .testimonial-name {
             color: #e0e0e0;
             font-weight: 600;
         }
 
-        /* ACTION BUTTONS */
         .btn-action {
             display: inline-flex;
             align-items: center;
@@ -355,26 +342,7 @@ $stmt->close();
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
-        }
-
-        .btn-edit {
-            background: rgba(23, 162, 184, 0.2);
-            color: #17a2b8;
-        }
-
-        .btn-edit:hover {
-            background: rgba(23, 162, 184, 0.4);
-            color: #17a2b8;
-        }
-
-        .btn-comments {
-            background: rgba(108, 117, 125, 0.2);
-            color: #6c757d;
-        }
-
-        .btn-comments:hover {
-            background: rgba(108, 117, 125, 0.4);
-            color: #6c757d;
+            margin: 0.2rem;
         }
 
         .btn-delete {
@@ -387,7 +355,6 @@ $stmt->close();
             color: #dc3545;
         }
 
-        /* EMPTY STATE */
         .empty-state {
             background: rgba(30, 30, 30, 0.98);
             border: 1px solid rgba(255, 94, 0, 0.2);
@@ -415,7 +382,6 @@ $stmt->close();
             margin-bottom: 1.5rem;
         }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .sidebar {
                 width: 0;
@@ -440,7 +406,7 @@ $stmt->close();
                 font-size: 1.5rem;
             }
 
-            .btn-new-news {
+            .btn-new-testimonial {
                 width: 100%;
                 justify-content: center;
             }
@@ -463,7 +429,6 @@ $stmt->close();
             }
         }
 
-        /* MOBILE MENU TOGGLE */
         .menu-toggle {
             display: none;
             position: fixed;
@@ -489,12 +454,10 @@ $stmt->close();
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Toggle -->
-    <button class="menu-toggle" onclick="toggleSidebar()">
+    <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('active')">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
@@ -505,65 +468,73 @@ $stmt->close();
         </div>
 
         <div class="sidebar-menu">
-            <a href="../panelAdmin.php" class="menu-item">
+            <a href="panelAdmin.php" class="menu-item">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="adminNews.php" class="menu-item active">
+            <a href="adminUsers.php" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+            <a href="adminProjects.php" class="menu-item">
+                <i class="fas fa-project-diagram"></i>
+                <span>Proyectos</span>
+            </a>
+            <a href="adminNews.php" class="menu-item">
                 <i class="fas fa-newspaper"></i>
                 <span>Noticias</span>
             </a>
-            <a href="../comments/adminComments.php" class="menu-item">
-                <i class="fas fa-comments-dollar"></i>
+            <a href="adminTestimonials.php" class="menu-item active">
+                <i class="fas fa-comments"></i>
+                <span>Testimonios</span>
+            </a>
+            <a href="adminComments.php" class="menu-item">
+                <i class="fas fa-comment-dots"></i>
                 <span>Comentarios</span>
             </a>
             
             <div class="menu-separator"></div>
             
-            <a href="../../logout.php" class="menu-item">
+            <a href="../logout.php" class="menu-item">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Cerrar Sesión</span>
             </a>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <div class="main-content">
-        <!-- TOP BAR -->
         <div class="top-bar">
             <div class="welcome-text">
-                Bienvenido, <span><?php echo htmlspecialchars($user_name); ?></span>
+                Bienvenido, <span><?php echo $user_name; ?></span>
             </div>
             <div class="user-info">
                 <div class="user-avatar">
                     <?php echo strtoupper(substr($user_name, 0, 1)); ?>
                 </div>
-                <a href="../../logout.php" class="btn-logout">
+                <a href="../logout.php" class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i>Salir
                 </a>
             </div>
         </div>
 
-        <!-- HEADER SECTION -->
         <div class="header-section">
             <h2 class="header-title">
-                <i class="fas fa-newspaper"></i>
-                Gestión de Noticias
+                <i class="fas fa-comments"></i>
+                Gestión de Testimonios
             </h2>
-            <a href="addNews.php" class="btn-new-news">
+            <a href="addTestimonials.php" class="btn-new-testimonial">
                 <i class="fas fa-plus"></i>
-                Nueva Noticia
+                Nuevo Testimonio
             </a>
         </div>
 
-        <!-- MESSAGE ALERTS -->
         <?php if(isset($_GET['message'])): ?>
             <div class="alert-box success">
                 <div class="alert-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="alert-text">
-                    <?php echo htmlspecialchars($_GET['message']); ?>
+                    <?php echo $_GET['message']; ?>
                 </div>
             </div>
         <?php endif; ?>
@@ -574,62 +545,51 @@ $stmt->close();
                     <i class="fas fa-exclamation-circle"></i>
                 </div>
                 <div class="alert-text">
-                    <?php echo htmlspecialchars($_GET['error']); ?>
+                    <?php echo $_GET['error']; ?>
                 </div>
             </div>
         <?php endif; ?>
 
-        <!-- TABLE SECTION -->
-        <?php if(empty($news)): ?>
+        <?php if(empty($testimonials)): ?>
             <div class="empty-state">
                 <div class="empty-state-icon">
-                    <i class="fas fa-newspaper"></i>
+                    <i class="fas fa-comments"></i>
                 </div>
-                <h3 class="empty-state-title">Sin noticias</h3>
-                <p class="empty-state-text">No hay noticias registradas todavía.</p>
-                <a href="addNews.php" class="btn-new-news">
+                <h3 class="empty-state-title">Sin testimonios</h3>
+                <p class="empty-state-text">No hay testimonios registrados todavía.</p>
+                <a href="addTestimonial.php" class="btn-new-testimonial">
                     <i class="fas fa-plus"></i>
-                    Crear Primera Noticia
+                    Crear Primer Testimonio
                 </a>
             </div>
         <?php else: ?>
             <div class="table-container">
                 <div class="table-wrapper">
-                    <table class="table news-table">
+                    <table class="table testimonials-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Imagen</th>
-                                <th>Título</th>
-                                <th>Subtítulo</th>
-                                <th>Fecha</th>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                                <th>Testimonio</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($news as $n): ?>
+                            <?php foreach($testimonials as $t): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($n['id']); ?></td>
+                                    <td><?php echo $t['id']; ?></td>
                                     <td>
-                                        <?php if(!empty($n['image'])): ?>
-                                            <img src="../../theme/<?php echo htmlspecialchars($n['image']); ?>" alt="<?php echo htmlspecialchars($n['title']); ?>" class="news-image">
+                                        <?php if(!empty($t['photo'])): ?>
+                                            <img src="<?php echo $t['photo']; ?>" alt="<?php echo $t['name']; ?>" class="testimonial-image">
                                         <?php else: ?>
-                                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect fill='%23333' width='60' height='60'/%3E%3Ctext x='50%25' y='50%25' font-size='12' fill='%23888' text-anchor='middle' dy='.3em'%3ENo imagen%3C/text%3E%3C/svg%3E" alt="Sin imagen" class="news-image">
+                                            <img src="https://via.placeholder.com/60" alt="Sin foto" class="testimonial-image">
                                         <?php endif; ?>
                                     </td>
-                                    <td class="news-title"><?php echo htmlspecialchars(substr($n['title'], 0, 40)); ?><?php echo strlen($n['title']) > 40 ? '...' : ''; ?></td>
-                                    <td><?php echo htmlspecialchars(substr($n['subtitle'], 0, 30)); ?><?php echo strlen($n['subtitle']) > 30 ? '...' : ''; ?></td>
-                                    <td><?php echo date('d/m/Y', strtotime($n['date_publication'])); ?></td>
+                                    <td class="testimonial-name"><?php echo $t['name']; ?></td>
+                                    <td><?php echo substr($t['info'], 0, 80); ?><?php echo strlen($t['info']) > 80 ? '...' : ''; ?></td>
                                     <td>
-                                        <a href="editNews.php?id=<?php echo urlencode($n['id']); ?>" class="btn-action btn-edit">
-                                            <i class="fas fa-edit"></i>
-                                            Editar
-                                        </a>
-                                        <a href="comments.php?news_id=<?php echo urlencode($n['id']); ?>" class="btn-action btn-comments">
-                                            <i class="fas fa-comments"></i>
-                                            Comentarios
-                                        </a>
-                                        <a href="deleteNews.php?id=<?php echo urlencode($n['id']); ?>" class="btn-action btn-delete" onclick="return confirm('¿Eliminar esta noticia?');">
+                                        <a href="deleteTestimonials.php?id=<?php echo $t['id']; ?>" class="btn-action btn-delete" onclick="return confirm('¿Eliminar este testimonio?');">
                                             <i class="fas fa-trash"></i>
                                             Eliminar
                                         </a>
@@ -644,21 +604,5 @@ $stmt->close();
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
-
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggle = document.querySelector('.menu-toggle');
-            
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !toggle.contains(event.target)) {
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-    </script>
 </body>
 </html>

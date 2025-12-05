@@ -1,3 +1,12 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if(!isset($_SESSION['user_role'])){
+  header('Location: ../login.php');
+}
+
+?>
 <!DOCTYPE html>
 
 <!--
@@ -32,6 +41,32 @@
   <!-- Main Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
   
+  <style>
+    /* Rider Zone palette and components */
+    :root {
+      --primary-color: #ff5e00;
+      --primary-dark: #d84e00;
+      --secondary-color: #1e1e1e;
+      --dark-bg: #0f0f0f;
+      --gradient-primary: linear-gradient(135deg, #ff5e00 0%, #d84e00 100%);
+    }
+
+    body { background: var(--dark-bg); color: #e0e0e0; }
+
+    .page-title { padding: 120px 0 80px; background-size: cover !important; }
+
+    .section { background: var(--dark-bg); padding: 80px 0; }
+
+    .card.rz-card { background: rgba(30,30,30,0.98); border:1px solid rgba(255,94,0,0.12); border-radius:8px; box-shadow:0 8px 30px rgba(0,0,0,0.5); }
+
+    .rz-form .form-control { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04); color:#e0e0e0; }
+    .rz-form .form-control::placeholder { color: #b0b0b0; }
+
+    .btn-rz { background: var(--gradient-primary); border:none; padding:0.75rem 2rem; color:white; border-radius:4px; }
+
+    .map { height: 420px; width:100%; display:block; }
+  </style>
+
   <!--Favicon-->
   <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
@@ -46,11 +81,11 @@ require_once 'modules/header.php'
 ?>
 
 <!-- page-title -->
-<section class="page-title bg-cover" data-background="images/backgrounds/page-title.jpg">
+<section class="page-title bg-cover" data-background="https://imgs.search.brave.com/QbYzD1FJksknqnTaEDlv89_xbrzdJNWrfWWKvK4Tluk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bW90b2NpY2xpc21v/LmVzL3VwbG9hZHMv/czEvMTQvNTkvNjgv/OTkvbWFyYy1tYXJx/dWV6LXBvbmUtbGEt/cGxhY2EtZGUtMjAy/NS1lbi1sYS10b3Jy/ZS1kZS1jYW1wZW9u/ZXMtZGUtbW90b2dw/LmpwZWc">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="display-1 text-white font-weight-bold font-primary">Contact Us</h1>
+        <h1 class="display-1 text-white font-weight-bold font-primary">Contactanos</h1>
       </div>
     </div>
   </div>
@@ -59,65 +94,43 @@ require_once 'modules/header.php'
 
 <div class="map" id="map_canvas" data-latitude="51.507351" data-longitude="-0.127758" data-marker="images/marker.png"></div>
 
+<!-- contact section styled -->
+<section class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card rz-card p-4">
+          <h2 class="text-white mb-3">Contáctanos</h2>
+          <p class="text-light mb-4">¿Tienes alguna duda o propuesta? Escríbenos y te responderemos lo antes posible.</p>
+          <form class="rz-form" action="#" method="post">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input type="text" id="name" name="name" class="form-control" placeholder="Nombre completo">
+              </div>
+              <div class="form-group col-md-6">
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="text" id="subject" name="subject" class="form-control" placeholder="Asunto">
+            </div>
+            <div class="form-group">
+              <textarea name="message" id="message" rows="6" class="form-control" placeholder="Mensaje"></textarea>
+            </div>
+            <div class="text-right">
+              <button class="btn btn-rz" type="submit">Enviar mensaje</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- footer -->
-<footer class="bg-secondary position-relative">
-  <img src="images/backgrounds/map.png" class="img-fluid overlay-image" alt="">
-  <div class="section">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-3 col-6">
-          <h4 class="text-white mb-5">About</h4>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-light d-block mb-3">Service</a></li>
-            <li><a href="#" class="text-light d-block mb-3">Conatact</a></li>
-            <li><a href="#" class="text-light d-block mb-3">About us</a></li>
-            <li><a href="#" class="text-light d-block mb-3">Blog</a></li>
-            <li><a href="#" class="text-light d-block mb-3">Support</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3 col-6">
-          <h4 class="text-white mb-5">Company</h4>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-light d-block mb-3">Service</a></li>
-            <li><a href="#" class="text-light d-block mb-3">Conatact</a></li>
-            <li><a href="#" class="text-light d-block mb-3">About us</a></li>
-            <li><a href="#" class="text-light d-block mb-3">Blog</a></li>
-            <li><a href="#" class="text-light d-block mb-3">Support</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <div class="bg-white p-4">
-            <h3>Contact us</h3>
-            <form action="#">
-              <input type="text" id="name" name="name" class="form-control mb-4 px-0" placeholder="Full name">
-              <input type="text" id="name" name="name" class="form-control mb-4 px-0" placeholder="Email address">
-              <textarea name="message" id="message" class="form-control mb-4 px-0" placeholder="Message"></textarea>
-              <button class="btn btn-primary" type="submit">Send</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="pb-4">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-6 text-center text-md-left">
-          <p class="text-light mb-0">Copyright &copy; 2019 a theme by <a class="text-gradient-primary" href="https://themefisher.com">themefisher.com</a>
-          </p>
-        </div>
-        <div class="col-md-6">
-          <ul class="list-inline text-md-right text-center">
-            <li class="list-inline-item"><a class="d-block p-3 text-white" href="#"><i class="ti-facebook"></i></a></li>
-            <li class="list-inline-item"><a class="d-block p-3 text-white" href="#"><i class="ti-twitter-alt"></i></a></li>
-            <li class="list-inline-item"><a class="d-block p-3 text-white" href="#"><i class="ti-instagram"></i></a></li>
-            <li class="list-inline-item"><a class="d-block p-3 text-white" href="#"><i class="ti-github"></i></a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
+<?php
+include_once 'modules/footer.php';
+?>
 <!-- /footer -->
 
 <!-- jQuery -->
